@@ -6,7 +6,7 @@ import time
 import random
 import bcrypt
 from datetime import datetime
-from typing import Optional, Dict
+from typing import Optional, Dict, List
 
 
 class Database:
@@ -159,20 +159,15 @@ class Database:
             print(f"Error ensuring admin user: {e}")
 
     # Event operations
-    def get_all_events(self) -> Dict:
+    def get_all_events(self) -> list:
         """Fetch all events."""
         query = "SELECT id, name, date, description FROM events ORDER BY date DESC"
         results = self._execute(query, fetch_all=True)
         
-        events = {}
+        events = []
         if results:
             for row in results:
-                event_id, name, date, description = row
-                events[event_id] = {
-                    "name": name, 
-                    "date": date, 
-                    "desc": description or "No description"
-                }
+                events.append(row)
         return events
 
     def get_event_by_id(self, event_id: str) -> Optional[Dict]:
