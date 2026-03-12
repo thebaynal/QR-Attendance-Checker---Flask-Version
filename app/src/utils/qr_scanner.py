@@ -70,9 +70,18 @@ class QRCameraScanner:
                 
                 frame_count += 1
                 
-                # Decode QR codes in the frame
+                # Preprocess frame for better QR detection
                 try:
-                    decoded_objects = pyzbar.decode(frame)
+                    # Convert to grayscale for better QR detection
+                    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+                    
+                    # Increase contrast
+                    alpha = 1.3  # Contrast control
+                    beta = 30    # Brightness control
+                    processed_frame = cv2.convertScaleAbs(gray, alpha=alpha, beta=beta)
+                    
+                    # Decode QR codes in the preprocessed frame
+                    decoded_objects = pyzbar.decode(processed_frame)
                 except Exception as e:
                     print(f"Error decoding QR: {e}")
                     decoded_objects = []

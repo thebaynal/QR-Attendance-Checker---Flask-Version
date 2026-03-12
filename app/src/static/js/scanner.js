@@ -45,13 +45,31 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function loadQRScannerLibrary() {
-    // Load html5-qrcode library
+    // Load jsQR library
+    if (typeof jsQR !== 'undefined') {
+        console.log('jsQR library already loaded');
+        return;
+    }
+    
     const script = document.createElement('script');
-    script.src = 'https://cdn.jsdelivr.net/npm/html5-qrcode@2.2.0/jsQR.js';
+    script.src = 'https://cdn.jsdelivr.net/npm/jsqr@1.4.0/dist/jsQR.js';
+    script.onload = () => {
+        console.log('jsQR library loaded successfully');
+    };
+    script.onerror = () => {
+        console.error('Failed to load jsQR library');
+    };
     document.head.appendChild(script);
 }
 
 function startQRScanner() {
+    // Check if jsQR library is loaded
+    if (typeof jsQR === 'undefined') {
+        console.warn('jsQR not loaded yet, waiting...');
+        setTimeout(() => startQRScanner(), 500);
+        return;
+    }
+
     const constraints = {
         video: {
             facingMode: 'user',
@@ -76,6 +94,11 @@ function startQRScanner() {
         .then(stream => {
             video.srcObject = stream;
 
+            let scanAttempts = 0;
+            let lastScannedCode = null;
+            let lastScanTime = 0;
+            const scanCooldown = 2000; // 2 second cooldown between scans
+            
             const scanInterval = setInterval(() => {
                 if (video.readyState === video.HAVE_ENOUGH_DATA) {
                     canvas.width = video.videoWidth;
@@ -84,19 +107,61 @@ function startQRScanner() {
                     const ctx = canvas.getContext('2d');
                     ctx.drawImage(video, 0, 0, canvas.width, canvas.height);
 
+                    // Get image data with enhanced brightness/contrast
                     const imageData = ctx.getImageData(0, 0, canvas.width, canvas.height);
-                    const code = jsQR(imageData.data, imageData.width, imageData.height, {
-                        inversionAttempts: 'dontInvert',
-                    });
+                    const data = imageData.data;
+                    
+                    // Enhance contrast for better QR detection
+                    for (let i = 0; i < data.length; i += 4) {
+                        const r = data[i];
+                        const g = data[i + 1];
+                        const b = data[i + 2];
+                        
+                        // Increase contrast
+                        const avg = (r + g + b) / 3;
+                        const factor = 1.5;
+                        data[i] = Math.min(255, avg + (r - avg) * factor);
+                        data[i + 1] = Math.min(255, avg + (g - avg) * factor);
+                        data[i + 2] = Math.min(255, avg + (b - avg) * factor);
+                    }
+
+                    scanAttempts++;
+                    
+                    // Try multiple QR detection attempts with different settings
+                    let code = null;
+                    try {
+                        code = jsQR(imageData.data, imageData.width, imageData.height);
+                    } catch (e) {
+                        console.error('QR scan error:', e);
+                    }
 
                     if (code) {
-                        document.getElementById('qr-input').value = code.data;
-                        submitQRCode();
-                        clearInterval(scanInterval);
-                        stream.getTracks().forEach(track => track.stop());
+                        const currentTime = Date.now();
+                        
+                        // Only process if different code or cooldown passed
+                        if (code.data !== lastScannedCode || (currentTime - lastScanTime) > scanCooldown) {
+                            console.log('QR Code detected:', code.data);
+                            lastScannedCode = code.data;
+                            lastScanTime = currentTime;
+                            
+                            document.getElementById('qr-input').value = code.data;
+                            submitQRCode();
+                            // IMPORTANT: Do NOT stop the stream or clear interval
+                            // Camera continues running for continuous scanning
+                        }
+                    } else if (scanAttempts % 20 === 0) {
+                        console.log('Scanning... (' + scanAttempts + ' attempts)');
                     }
                 }
-            }, 500);
+            }, 100);
+
+            // Stop scanning after 5 minutes of inactivity or user closes event select
+            const maxScanTime = 5 * 60 * 1000;
+            setTimeout(() => {
+                clearInterval(scanInterval);
+                stream.getTracks().forEach(track => track.stop());
+                console.log('Scanner stopped after timeout');
+            }, maxScanTime);
         })
         .catch(err => {
             console.error('Camera access denied:', err);
