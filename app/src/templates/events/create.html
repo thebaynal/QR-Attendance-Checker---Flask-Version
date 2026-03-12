@@ -21,50 +21,46 @@
         <form method="POST" class="event-form" id="createEventForm">
             <div class="form-group">
                 <label for="name">
+                    <span class="label-icon">📝</span>
                     <span class="label-text">Event Name</span>
                     <span class="required">*</span>
                 </label>
-                <div class="input-wrapper">
-                    <span class="input-icon">📝</span>
-                    <input 
-                        type="text" 
-                        id="name" 
-                        name="name" 
-                        required 
-                        placeholder="e.g., Team Training, Annual Meeting"
-                        class="form-input"
-                        onchange="validateEventName(this)"
-                    >
-                </div>
+                <input 
+                    type="text" 
+                    id="name" 
+                    name="name" 
+                    required 
+                    placeholder="e.g., Team Training, Annual Meeting"
+                    class="form-input"
+                    onchange="validateEventName(this)"
+                >
                 <small class="field-help">Give your event a clear, descriptive name</small>
             </div>
 
             <div class="form-group">
                 <label for="date">
+                    <span class="label-icon">📆</span>
                     <span class="label-text">Event Date</span>
                     <span class="required">*</span>
                 </label>
-                <div class="input-wrapper">
-                    <span class="input-icon">📆</span>
-                    <input 
-                        type="date" 
-                        id="date" 
-                        name="date" 
-                        required
-                        class="form-input"
-                        onchange="validateEventDate(this)"
-                    >
-                </div>
+                <input 
+                    type="date" 
+                    id="date" 
+                    name="date" 
+                    required
+                    class="form-input"
+                    onchange="validateEventDate(this)"
+                >
                 <small class="field-help">Select when the event will take place</small>
             </div>
 
             <div class="form-group">
                 <label for="description">
+                    <span class="label-icon">📄</span>
                     <span class="label-text">Description</span>
                     <span class="optional">(optional)</span>
                 </label>
-                <div class="input-wrapper textarea-wrapper">
-                    <span class="input-icon textarea-icon">📄</span>
+                <div class="textarea-wrapper">
                     <textarea 
                         id="description" 
                         name="description" 
@@ -188,6 +184,10 @@
     color: var(--text-color);
 }
 
+.label-icon {
+    font-size: 1.1rem;
+}
+
 .label-text {
     font-size: 0.95rem;
 }
@@ -202,27 +202,9 @@
     font-size: 0.85rem;
 }
 
-.input-wrapper {
-    position: relative;
-    display: flex;
-    align-items: flex-start;
-}
-
-.input-icon {
-    position: absolute;
-    left: 12px;
-    top: 12px;
-    font-size: 1.1rem;
-    pointer-events: none;
-}
-
-.textarea-icon {
-    top: 14px;
-}
-
 .form-input {
     width: 100%;
-    padding: 12px 12px 12px 44px;
+    padding: 12px 14px;
     border: 1.5px solid var(--input-border);
     border-radius: 8px;
     background: var(--input-bg);
@@ -246,11 +228,10 @@
 textarea.form-input {
     resize: vertical;
     min-height: 120px;
-    padding-bottom: 40px;
 }
 
 .textarea-wrapper {
-    flex-direction: column;
+    position: relative;
 }
 
 .char-count {
@@ -259,6 +240,7 @@ textarea.form-input {
     right: 12px;
     font-size: 0.8rem;
     color: var(--navbar-text);
+    pointer-events: none;
 }
 
 .field-help {
