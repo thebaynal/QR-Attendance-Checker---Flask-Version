@@ -21,10 +21,10 @@ if __name__ == '__main__':
     port = int(os.getenv('PORT', 5000))
     
     print(f"""
-    ╔══════════════════════════════════════════════════════════╗
-    ║   🎯 MaScan - QR Attendance System                       ║
-    ║   Flask Web Application                                  ║
-    ╚══════════════════════════════════════════════════════════╝
+    ========================================================
+    MaScan - QR Attendance System
+    Flask Web Application
+    ========================================================
     
     Starting server...
     - Debug Mode: {debug_mode}
