@@ -277,6 +277,9 @@ def mark_attendance():
             commit=True
         )
         
+        # Also update the new timeslots table used for PDF generation
+        db.record_timeslot_attendance(event_id, user_id, time_slot)
+        
         # Record activity
         username = session.get('username')
         db._execute(
@@ -356,6 +359,9 @@ def quick_mark():
             (event_id, user_id, user_name, timestamp, 'Present', 'morning'),
             commit=True
         )
+        
+        # Also update the new timeslots table used for PDF generation
+        db.record_timeslot_attendance(event_id, user_id, 'morning')
         
         return jsonify({'success': True, 'message': f'Marked {user_name}'}), 200
     

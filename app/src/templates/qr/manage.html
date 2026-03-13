@@ -6,7 +6,67 @@
 <div class="qr-management-container">
     <div class="qr-header">
         <h1>QR Code Management</h1>
-        <p>Import CSV files, generate QR codes, and manage student records</p>
+        <p>Generate single QR codes, import CSV files, and manage student records</p>
+    </div>
+
+    <!-- Single QR Generation Section -->
+    <div class="card qr-single-card">
+        <h2>✨ Generate Single QR Code</h2>
+        <p class="info-text">Create a QR code for a single student instantly</p>
+        
+        <form id="single-qr-form" class="single-qr-form">
+            <div class="form-row">
+                <div class="form-group required">
+                    <label for="single-school-id">School ID</label>
+                    <input type="text" id="single-school-id" name="school_id" class="form-control" placeholder="e.g., STU001" required>
+                </div>
+                <div class="form-group required">
+                    <label for="single-name">Full Name</label>
+                    <input type="text" id="single-name" name="name" class="form-control" placeholder="e.g., John C. Doe" required>
+                </div>
+            </div>
+            
+            <details class="optional-fields-details">
+                <summary>➕ Additional Information (Optional)</summary>
+                <div class="optional-fields-grid">
+                    <div class="form-group">
+                        <label for="single-first-name">First Name</label>
+                        <input type="text" id="single-first-name" name="first_name" class="form-control" placeholder="John">
+                    </div>
+                    <div class="form-group">
+                        <label for="single-last-name">Last Name</label>
+                        <input type="text" id="single-last-name" name="last_name" class="form-control" placeholder="Doe">
+                    </div>
+                    <div class="form-group">
+                        <label for="single-middle-initial">Middle Initial</label>
+                        <input type="text" id="single-middle-initial" name="middle_initial" class="form-control" placeholder="C">
+                    </div>
+                    <div class="form-group">
+                        <label for="single-course">Course</label>
+                        <input type="text" id="single-course" name="course" class="form-control" placeholder="e.g., BSCS">
+                    </div>
+                    <div class="form-group">
+                        <label for="single-year">Year Level</label>
+                        <input type="text" id="single-year" name="year_level" class="form-control" placeholder="e.g., 1">
+                    </div>
+                    <div class="form-group">
+                        <label for="single-section">Section</label>
+                        <input type="text" id="single-section" name="section" class="form-control" placeholder="e.g., A">
+                    </div>
+                </div>
+            </details>
+            
+            <div class="form-actions">
+                <button type="submit" class="btn btn-primary generate-btn">
+                    <span class="btn-icon">⚡</span>
+                    Generate QR Code
+                </button>
+            </div>
+        </form>
+        
+        <div id="single-qr-result" class="upload-result" style="display: none;">
+            <div id="single-result-message" class="result-message"></div>
+        </div>
     </div>
 
     <!-- CSV Upload Section -->
@@ -177,14 +237,14 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
     font-size: 1.1em;
 }
 
-/* Upload Card */
-.qr-upload-card {
+/* Upload and Single Cards */
+.qr-upload-card, .qr-single-card {
     margin-bottom: 30px;
     background: linear-gradient(135deg, var(--card-bg) 0%, rgba(42, 115, 255, 0.02) 100%);
     border: 1px solid rgba(42, 115, 255, 0.1);
 }
 
-.qr-upload-card h2 {
+.qr-upload-card h2, .qr-single-card h2 {
     margin-bottom: 15px;
     display: flex;
     align-items: center;
@@ -269,6 +329,102 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
     font-size: 0.85em;
     line-height: 1.5;
     margin-top: 10px;
+}
+
+/* Single Form Styles */
+.single-qr-form {
+    margin-top: 20px;
+}
+
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.form-group {
+    display: flex;
+    flex-direction: column;
+}
+
+.form-group label {
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: var(--text-color);
+}
+
+.form-group.required label::after {
+    content: " *";
+    color: #dc3545;
+}
+
+.form-control {
+    padding: 10px 12px;
+    border: 1px solid var(--input-border);
+    border-radius: 6px;
+    background-color: var(--input-bg);
+    color: var(--text-color);
+    font-family: inherit;
+    font-size: 0.95em;
+    transition: all 0.2s ease;
+}
+
+.form-control:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(42, 115, 255, 0.15);
+}
+
+.optional-fields-details {
+    background: var(--input-bg);
+    border: 1px solid var(--border-color);
+    border-radius: 8px;
+    margin-bottom: 25px;
+    overflow: hidden;
+}
+
+.optional-fields-details summary {
+    font-weight: 600;
+    color: var(--navbar-text);
+    transition: all 0.3s ease;
+    outline: none;
+    padding: 12px 15px;
+    cursor: pointer;
+    background: rgba(0, 0, 0, 0.02);
+}
+
+.optional-fields-details summary:hover {
+    color: var(--primary-color);
+    background: rgba(42, 115, 255, 0.05);
+}
+
+html.dark-mode .optional-fields-details summary {
+    background: rgba(255, 255, 255, 0.05);
+}
+
+html.dark-mode .optional-fields-details summary:hover {
+    background: rgba(42, 115, 255, 0.15);
+}
+
+.optional-fields-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+    gap: 15px;
+    padding: 15px;
+    border-top: 1px solid var(--border-color);
+    animation: slideInDown 0.3s ease-out;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.generate-btn {
+    padding: 12px 25px;
+    font-size: 1.05em;
 }
 
 /* File Input */
@@ -798,6 +954,11 @@ html.dark-mode .qr-code-card:hover {
     .search-box {
         grid-column: auto;
     }
+    
+    .form-row {
+        grid-template-columns: 1fr;
+        gap: 15px;
+    }
 
     .bulk-actions-toolbar {
         flex-direction: column;
@@ -949,6 +1110,61 @@ html.dark-mode .qr-code-card:hover {
 </style>
 
 <script>
+// Single QR Generate Handler
+const singleQrForm = document.getElementById('single-qr-form');
+
+singleQrForm.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    
+    const formData = new FormData(singleQrForm);
+    const data = Object.fromEntries(formData.entries());
+    
+    const generateBtn = singleQrForm.querySelector('.generate-btn');
+    const originalBtnContent = generateBtn.innerHTML;
+    generateBtn.innerHTML = '<span class="loading-spinner"></span> Generating...';
+    generateBtn.disabled = true;
+    
+    const resultDiv = document.getElementById('single-qr-result');
+    const resultMessage = document.getElementById('single-result-message');
+    
+    resultDiv.style.display = 'none';
+    
+    try {
+        const response = await fetch('{{ url_for("qr_mgmt.generate_single") }}', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data)
+        });
+        
+        const responseData = await response.json();
+        
+        resultDiv.style.display = 'block';
+        
+        if (responseData.success) {
+            resultMessage.className = 'result-message success';
+            resultMessage.textContent = `✓ ${responseData.message}`;
+            
+            // clear form
+            singleQrForm.reset();
+            
+            // Refresh QR codes
+            setTimeout(() => loadQRCodes(), 1000);
+        } else {
+            resultMessage.className = 'result-message error';
+            resultMessage.textContent = `✗ ${responseData.message}`;
+        }
+    } catch (error) {
+        resultDiv.style.display = 'block';
+        resultMessage.className = 'result-message error';
+        resultMessage.textContent = `✗ Error: ${error.message}`;
+    } finally {
+        generateBtn.innerHTML = originalBtnContent;
+        generateBtn.disabled = false;
+    }
+});
+
 // CSV Upload Handler
 const csvForm = document.getElementById('csv-upload-form');
 const csvFileInput = document.getElementById('csv-file');

@@ -183,6 +183,119 @@ def upload_csv():
         return jsonify({'error': f'Error processing CSV: {str(e)}'}), 500
 
 
+@qr_mgmt_bp.route('/generate-single', methods=['POST'])
+@admin_required
+def generate_single():
+    """Generate a single QR code from form data."""
+    try:
+        data = request.get_json()
+        
+        school_id = data.get('school_id')
+        name = data.get('name')
+        first_name = data.get('first_name', '')
+        last_name = data.get('last_name', '')
+        middle_initial = data.get('middle_initial', '')
+        year_level = data.get('year_level', '')
+        section = data.get('section', '')
+        course = data.get('course', '')
+        
+        # Validate required fields
+        if not school_id or not name:
+            return jsonify({'success': False, 'message': 'School ID and Name are required'}), 400
+            
+        # Check if student already exists
+        existing = db._execute(
+            "SELECT school_id FROM students_qrcodes WHERE school_id = ?",
+            (school_id,),
+            fetch_one=True
+        )
+        
+        # Generate QR code
+        qr_data = f"{school_id}:{name}"
+        
+        # Create QR code image
+        qr = qrcode.QRCode(
+            version=1,
+            error_correction=qrcode.constants.ERROR_CORRECT_L,
+            box_size=10,
+            border=4,
+        )
+        qr.add_data(qr_data)
+        qr.make(fit=True)
+        
+        # Convert QR to base64 encoded image
+        img = qr.make_image(fill_color="black", back_color="white")
+        img_byte_arr = io.BytesIO()
+        img.save(img_byte_arr, format='PNG')
+        img_byte_arr.seek(0)
+        import base64
+        qr_data_encoded = base64.b64encode(img_byte_arr.getvalue()).decode('utf-8')
+        
+        # Store CSV data as JSON
+        csv_record = {
+            'Course': course,
+            'Year': year_level,
+            'Section': section,
+            'FirstName': first_name,
+            'LastName': last_name,
+            'MiddleInitial': middle_initial
+        }
+        csv_data_json = json.dumps(csv_record)
+        
+        action_msg = ''
+        if existing:
+            # Update existing student
+            db.update_student(
+                school_id=school_id,
+                name=name,
+                qr_data=qr_data,
+                qr_data_encoded=qr_data_encoded,
+                csv_data=csv_data_json,
+                first_name=first_name,
+                last_name=last_name,
+                middle_initial=middle_initial,
+                year_level=year_level,
+                section=section,
+                course=course
+            )
+            action_msg = 'updated'
+        else:
+            # Create new student
+            db.create_student(
+                school_id=school_id,
+                name=name,
+                qr_data=qr_data,
+                qr_data_encoded=qr_data_encoded,
+                csv_data=csv_data_json,
+                first_name=first_name,
+                last_name=last_name,
+                middle_initial=middle_initial,
+                year_level=year_level,
+                section=section,
+                course=course
+            )
+            action_msg = 'created'
+            
+        # Record activity
+        username = session.get('username')
+        db._execute(
+            """INSERT INTO activity_log 
+               (timestamp, action, user, details)
+               VALUES (?, ?, ?, ?)""",
+            (datetime.now().isoformat(), 'GENERATE_SINGLE_QR', username, f'{action_msg.capitalize()} QR code for {school_id}'),
+            commit=True
+        )
+            
+        return jsonify({
+            'success': True,
+            'message': f'Successfully {action_msg} QR code for {name}',
+            'action': action_msg
+        }), 200
+        
+    except Exception as e:
+        return jsonify({'success': False, 'message': f'Error generating QR code: {str(e)}'}), 500
+
+
 @qr_mgmt_bp.route('/qr-codes', methods=['GET'])
 @admin_required
 def get_qr_codes():

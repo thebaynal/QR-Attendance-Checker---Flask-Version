@@ -161,9 +161,12 @@ def api_mark_attendance():
             """INSERT INTO attendance 
                (event_id, user_id, user_name, timestamp, status, time_slot)
                VALUES (?, ?, ?, ?, ?, ?)""",
-            (event_id, user_id, user_name, timestamp, 'present', time_slot),
+            (event_id, user_id, user_name, timestamp, 'Present', time_slot),
             commit=True
         )
+        
+        # Also update the new timeslots table used for PDF generation
+        db.record_timeslot_attendance(event_id, user_id, time_slot)
         
         return jsonify({
             'success': True,
