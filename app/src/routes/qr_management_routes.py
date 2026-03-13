@@ -22,9 +22,9 @@ def manage_qr():
     username = session.get('username')
     user = db.get_user(username)
     
-    # Get all students with QR codes including section info
+    # Get all students with QR codes including section, year, and course info
     students = db._execute(
-        "SELECT school_id, name, last_name, first_name, middle_initial, qr_data, section, year_level FROM students_qrcodes ORDER BY created_at DESC",
+        "SELECT school_id, name, last_name, first_name, middle_initial, qr_data, section, year_level, course FROM students_qrcodes ORDER BY created_at DESC",
         fetch_all=True
     ) or []
     
@@ -127,7 +127,10 @@ def upload_csv():
                         csv_data=csv_data_json,
                         first_name=first_name,
                         last_name=last_name,
-                        middle_initial=middle_initial
+                        middle_initial=middle_initial,
+                        year_level=year_level,
+                        section=section,
+                        course=course
                     )
                     generated_students.append({
                         'school_id': school_id,
@@ -145,7 +148,10 @@ def upload_csv():
                         csv_data=csv_data_json,
                         first_name=first_name,
                         last_name=last_name,
-                        middle_initial=middle_initial
+                        middle_initial=middle_initial,
+                        year_level=year_level,
+                        section=section,
+                        course=course
                     )
                     generated_students.append({
                         'school_id': school_id,
@@ -180,10 +186,10 @@ def upload_csv():
 @qr_mgmt_bp.route('/qr-codes', methods=['GET'])
 @admin_required
 def get_qr_codes():
-    """Get all QR codes with section and year information."""
+    """Get all QR codes with section, year, and course information."""
     try:
         students = db._execute(
-            "SELECT school_id, name, qr_data_encoded, section, year_level FROM students_qrcodes ORDER BY created_at DESC",
+            "SELECT school_id, name, qr_data_encoded, section, year_level, course FROM students_qrcodes ORDER BY created_at DESC",
             fetch_all=True
         ) or []
         
@@ -193,7 +199,8 @@ def get_qr_codes():
                 'name': row[1],
                 'qr_image': row[2],
                 'section': row[3],
-                'year': row[4]
+                'year': row[4],
+                'course': row[5]
             }
             for row in students
         ]

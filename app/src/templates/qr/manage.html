@@ -98,16 +98,22 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
                 <div class="search-box">
                     <input type="text" id="search-qr" placeholder="🔍 Search by name or ID..." class="filter-input">
                 </div>
-                <div class="section-filter">
-                    <label for="section-filter">Filter by Section:</label>
-                    <select id="section-filter" class="filter-input">
-                        <option value="">All Sections</option>
+                <div class="course-filter">
+                    <label for="course-filter">Filter by Course:</label>
+                    <select id="course-filter" class="filter-input">
+                        <option value="">All Courses</option>
                     </select>
                 </div>
                 <div class="year-filter">
                     <label for="year-filter">Filter by Year:</label>
                     <select id="year-filter" class="filter-input">
                         <option value="">All Years</option>
+                    </select>
+                </div>
+                <div class="section-filter">
+                    <label for="section-filter">Filter by Section:</label>
+                    <select id="section-filter" class="filter-input">
+                        <option value="">All Sections</option>
                     </select>
                 </div>
                 <button id="clear-filters-btn" class="btn btn-secondary btn-small">Clear Filters</button>
@@ -1089,6 +1095,8 @@ async function loadQRCodes() {
         const response = await fetch('{{ url_for("qr_mgmt.get_qr_codes") }}');
         const data = await response.json();
 
+        console.log('QR Codes loaded:', data);
+
         const container = document.getElementById('qr-codes-container');
         const totalCount = document.getElementById('total-qr-count');
 
@@ -1113,45 +1121,50 @@ async function loadQRCodes() {
         }
     } catch (error) {
         console.error('Error loading QR codes:', error);
+        alert('Error loading QR codes: ' + error.message);
     }
 }
 
 // Compare function to get filtered QR codes
 function getFilteredQRCodes() {
     const searchTerm = document.getElementById('search-qr').value.toLowerCase();
-    const sectionFilter = document.getElementById('section-filter').value;
+    const courseFilter = document.getElementById('course-filter').value;
     const yearFilter = document.getElementById('year-filter').value;
+    const sectionFilter = document.getElementById('section-filter').value;
 
     return allQRCodes.filter(qr => {
         const matchesSearch = !searchTerm || 
             qr.school_id.toLowerCase().includes(searchTerm) || 
             qr.name.toLowerCase().includes(searchTerm);
         
-        const matchesSection = !sectionFilter || qr.section === sectionFilter;
-        const matchesYear = !yearFilter || qr.year === yearFilter;
+        const matchesCourse = !courseFilter || (qr.course && qr.course === courseFilter);
+        const matchesYear = !yearFilter || (qr.year && qr.year === yearFilter);
+        const matchesSection = !sectionFilter || (qr.section && qr.section === sectionFilter);
 
-        return matchesSearch && matchesSection && matchesYear;
+        return matchesSearch && matchesCourse && matchesYear && matchesSection;
     });
 }
 
 // Populate filter options
 function populateFilterOptions() {
-    const sections = new Set();
+    const courses = new Set();
     const years = new Set();
+    const sections = new Set();
 
     allQRCodes.forEach(qr => {
-        if (qr.section) sections.add(qr.section);
+        if (qr.course) courses.add(qr.course);
         if (qr.year) years.add(qr.year);
+        if (qr.section) sections.add(qr.section);
     });
 
-    // Populate section filter
-    const sectionFilter = document.getElementById('section-filter');
-    sections.forEach(section => {
-        if (![...sectionFilter.options].map(o => o.value).includes(section)) {
+    // Populate course filter
+    const courseFilter = document.getElementById('course-filter');
+    [...courses].sort().forEach(course => {
+        if (![...courseFilter.options].map(o => o.value).includes(course)) {
             const option = document.createElement('option');
-            option.value = section;
-            option.textContent = section;
-            sectionFilter.appendChild(option);
+            option.value = course;
+            option.textContent = course;
+            courseFilter.appendChild(option);
         }
     });
 
@@ -1163,6 +1176,17 @@ function populateFilterOptions() {
             option.value = year;
             option.textContent = year;
             yearFilter.appendChild(option);
+        }
+    });
+
+    // Populate section filter
+    const sectionFilter = document.getElementById('section-filter');
+    [...sections].sort().forEach(section => {
+        if (![...sectionFilter.options].map(o => o.value).includes(section)) {
+            const option = document.createElement('option');
+            option.value = section;
+            option.textContent = section;
+            sectionFilter.appendChild(option);
         }
     });
 }
@@ -1197,7 +1221,9 @@ function displayQRCodes(qrCodes) {
             <div class="qr-code-info">
                 <div class="qr-code-id">${qr.school_id}</div>
                 <div class="qr-code-name">${qr.name}</div>
-                ${qr.section ? `<div class="qr-code-section" style="font-size: 0.85em; color: var(--navbar-text); margin-top: 4px;">Section: ${qr.section}</div>` : ''}
+                ${qr.course ? `<div class="qr-code-course" style="font-size: 0.85em; color: var(--navbar-text); margin-top: 4px;">Course: ${qr.course}</div>` : ''}
+                ${qr.year ? `<div class="qr-code-year" style="font-size: 0.85em; color: var(--navbar-text);">Year: ${qr.year}</div>` : ''}
+                ${qr.section ? `<div class="qr-code-section" style="font-size: 0.85em; color: var(--navbar-text);">Section: ${qr.section}</div>` : ''}
             </div>
             <div class="qr-code-actions">
                 <button class="btn btn-small btn-secondary" onclick="downloadSingleQR('${qr.school_id}')">
@@ -1271,7 +1297,7 @@ document.getElementById('search-qr').addEventListener('input', () => {
     displayQRCodes(getFilteredQRCodes());
 });
 
-document.getElementById('section-filter').addEventListener('change', () => {
+document.getElementById('course-filter').addEventListener('change', () => {
     displayQRCodes(getFilteredQRCodes());
 });
 
@@ -1279,11 +1305,16 @@ document.getElementById('year-filter').addEventListener('change', () => {
     displayQRCodes(getFilteredQRCodes());
 });
 
+document.getElementById('section-filter').addEventListener('change', () => {
+    displayQRCodes(getFilteredQRCodes());
+});
+
 // Clear filters
 document.getElementById('clear-filters-btn').addEventListener('click', () => {
     document.getElementById('search-qr').value = '';
-    document.getElementById('section-filter').value = '';
+    document.getElementById('course-filter').value = '';
     document.getElementById('year-filter').value = '';
+    document.getElementById('section-filter').value = '';
     displayQRCodes(allQRCodes);
 });
 
