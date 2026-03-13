@@ -122,6 +122,38 @@ function submitQRCode() {
         return;
     }
 
+    // Check if already scanned in this session
+    if (markedAttendees.has(qrData)) {
+        const resultDiv = document.getElementById('result-message');
+        resultDiv.className = 'result-message warning already-scanned';
+        resultDiv.innerHTML = `
+            <div class="already-scanned-content">
+                <div class="already-scanned-icon">⚠️</div>
+                <div class="already-scanned-text">
+                    <strong>Already Scanned!</strong>
+                    <p>This QR code has already been marked present.</p>
+                </div>
+            </div>
+        `;
+        resultDiv.style.display = 'block';
+        
+        // Animate the feedback
+        resultDiv.style.animation = 'none';
+        setTimeout(() => {
+            resultDiv.style.animation = 'pulse-warning 0.5s ease-in-out';
+        }, 10);
+
+        // Clear input
+        document.getElementById('qr-input').value = '';
+        document.getElementById('qr-input').focus();
+
+        // Keep visible for 3 seconds
+        setTimeout(() => {
+            resultDiv.style.display = 'none';
+        }, 3000);
+        return;
+    }
+
     markAttendance(qrData);
 }
 
@@ -135,34 +167,69 @@ function markAttendance(qrData) {
         const resultDiv = document.getElementById('result-message');
 
         if (response.success) {
-            resultDiv.className = 'result-message success';
-            resultDiv.textContent = response.message;
+            resultDiv.className = 'result-message success scanned-success';
+            resultDiv.innerHTML = `
+                <div class="scan-success-content">
+                    <div class="scan-success-icon">✓</div>
+                    <div class="scan-success-text">
+                        <strong>${response.user_name}</strong>
+                        <p>Successfully marked present</p>
+                        <p class="scan-time">${new Date().toLocaleTimeString()}</p>
+                    </div>
+                </div>
+            `;
+            resultDiv.style.display = 'block';
             markedAttendees.add(qrData);
 
-            // Add to table
+            // Add to table with animation
             const tbody = document.getElementById('attendance-body');
             const row = tbody.insertRow(-1);
+            row.className = 'new-scan-row';
             row.innerHTML = `
                 <td>${response.user_id}</td>
                 <td>${response.user_name}</td>
                 <td>${new Date().toLocaleTimeString()}</td>
             `;
+            row.style.animation = 'slideInRow 0.4s ease-out';
 
             // Clear input and focus for next scan
             document.getElementById('qr-input').value = '';
             document.getElementById('qr-input').focus();
 
-            // Hide message after 2 seconds
+            // Update count
+            updateAttendanceCount();
+
+            // Hide message after 3 seconds
             setTimeout(() => {
                 resultDiv.style.display = 'none';
-            }, 2000);
+            }, 3000);
         } else {
             resultDiv.className = 'result-message error';
             resultDiv.textContent = response.message;
+            resultDiv.style.display = 'block';
+            
+            // Keep visible for 2.5 seconds
+            setTimeout(() => {
+                resultDiv.style.display = 'none';
+            }, 2500);
         }
     })
     .catch(error => {
-        document.getElementById('result-message').className = 'result-message error';
-        document.getElementById('result-message').textContent = 'Error marking attendance: ' + error.message;
+        const resultDiv = document.getElementById('result-message');
+        resultDiv.className = 'result-message error';
+        resultDiv.textContent = 'Error marking attendance: ' + error.message;
+        resultDiv.style.display = 'block';
+        
+        setTimeout(() => {
+            resultDiv.style.display = 'none';
+        }, 2500);
     });
+}
+
+function updateAttendanceCount() {
+    const countElement = document.getElementById('attendance-count');
+    if (countElement) {
+        const rows = document.getElementById('attendance-body').rows.length;
+        countElement.textContent = rows;
+    }
 }
