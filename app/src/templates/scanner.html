@@ -33,6 +33,7 @@
             <div class="scanner-area">
                 <div id="qr-reader" style="width: 100%; max-width: 500px; margin: 0 auto;"></div>
                 <div id="scanner-status" class="scanner-status">Ready to scan...</div>
+                <div id="last-scanned-indicator" class="last-scanned-indicator" style="display: none;"></div>
             </div>
 
             <div class="scanner-input">
@@ -446,6 +447,24 @@
 .marked-list tbody tr:hover {
     background: var(--table-hover);
     transform: scale(1.01);
+}
+
+.last-scanned-indicator {
+    margin-top: 15px;
+    padding: 15px 20px;
+    background: linear-gradient(135deg, rgba(40, 167, 69, 0.15), rgba(40, 167, 69, 0.08));
+    border-left: 4px solid #28a745;
+    border-radius: 4px;
+    border: 1px solid rgba(40, 167, 69, 0.3);
+    animation: slideInUp 0.4s ease-out;
+    font-weight: 600;
+    color: #28a745;
+}
+
+.last-scanned-indicator.warning {
+    background: linear-gradient(135deg, rgba(255, 193, 7, 0.15), rgba(255, 193, 7, 0.08));
+    color: #ff6f00;
+    border-left-color: #ff6f00;
 }
 
 @media (max-width: 1024px) {

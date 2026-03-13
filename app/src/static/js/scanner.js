@@ -18,8 +18,10 @@ document.addEventListener('DOMContentLoaded', function() {
             selectedEvent = this.value;
             if (!selectedEvent) {
                 document.getElementById('qr-reader').innerHTML = '';
+                clearAttendanceTable();
             } else {
                 startQRScanner();
+                loadMarkedAttendees();
             }
         });
     }
@@ -27,6 +29,9 @@ document.addEventListener('DOMContentLoaded', function() {
     if (timeSlotSelect) {
         timeSlotSelect.addEventListener('change', function() {
             selectedTimeSlot = this.value;
+            if (selectedEvent) {
+                loadMarkedAttendees();
+            }
         });
     }
 
@@ -123,25 +128,11 @@ function submitQRCode() {
     }
 
     // Check if already scanned in this session
-    if (markedAttendees.has(qrData)) {
-        const resultDiv = document.getElementById('result-message');
-        resultDiv.className = 'result-message warning already-scanned';
-        resultDiv.innerHTML = `
-            <div class="already-scanned-content">
-                <div class="already-scanned-icon">⚠️</div>
-                <div class="already-scanned-text">
-                    <strong>Already Scanned!</strong>
-                    <p>This QR code has already been marked present.</p>
-                </div>
-            </div>
-        `;
-        resultDiv.style.display = 'block';
-        
-        // Animate the feedback
-        resultDiv.style.animation = 'none';
-        setTimeout(() => {
-            resultDiv.style.animation = 'pulse-warning 0.5s ease-in-out';
-        }, 10);
+    if (markedAttendees.has(qrData) || markedAttendees.has(qrData.split(':')[0] + '-' + selectedTimeSlot)) {
+        const indicator = document.getElementById('last-scanned-indicator');
+        indicator.className = 'last-scanned-indicator warning';
+        indicator.textContent = `⚠️ Already marked for ${selectedTimeSlot}`;
+        indicator.style.display = 'block';
 
         // Clear input
         document.getElementById('qr-input').value = '';
@@ -149,7 +140,7 @@ function submitQRCode() {
 
         // Keep visible for 3 seconds
         setTimeout(() => {
-            resultDiv.style.display = 'none';
+            indicator.style.display = 'none';
         }, 3000);
         return;
     }
@@ -164,22 +155,14 @@ function markAttendance(qrData) {
         time_slot: selectedTimeSlot
     })
     .then(response => {
-        const resultDiv = document.getElementById('result-message');
+        const indicator = document.getElementById('last-scanned-indicator');
 
         if (response.success) {
-            resultDiv.className = 'result-message success scanned-success';
-            resultDiv.innerHTML = `
-                <div class="scan-success-content">
-                    <div class="scan-success-icon">✓</div>
-                    <div class="scan-success-text">
-                        <strong>${response.user_name}</strong>
-                        <p>Successfully marked present</p>
-                        <p class="scan-time">${new Date().toLocaleTimeString()}</p>
-                    </div>
-                </div>
-            `;
-            resultDiv.style.display = 'block';
+            indicator.className = 'last-scanned-indicator';
+            indicator.textContent = `✓ ${response.user_name} marked for ${selectedTimeSlot}`;
+            indicator.style.display = 'block';
             markedAttendees.add(qrData);
+            markedAttendees.add(response.user_id + '-' + selectedTimeSlot);
 
             // Add to table with animation
             const tbody = document.getElementById('attendance-body');
@@ -199,30 +182,30 @@ function markAttendance(qrData) {
             // Update count
             updateAttendanceCount();
 
-            // Hide message after 3 seconds
+            // Hide indicator after 4 seconds
             setTimeout(() => {
-                resultDiv.style.display = 'none';
-            }, 3000);
+                indicator.style.display = 'none';
+            }, 4000);
         } else {
-            resultDiv.className = 'result-message error';
-            resultDiv.textContent = response.message;
-            resultDiv.style.display = 'block';
+            indicator.className = 'last-scanned-indicator warning';
+            indicator.textContent = `⚠️ ${response.message}`;
+            indicator.style.display = 'block';
             
-            // Keep visible for 2.5 seconds
+            // Keep visible for 3 seconds
             setTimeout(() => {
-                resultDiv.style.display = 'none';
-            }, 2500);
+                indicator.style.display = 'none';
+            }, 3000);
         }
     })
     .catch(error => {
-        const resultDiv = document.getElementById('result-message');
-        resultDiv.className = 'result-message error';
-        resultDiv.textContent = 'Error marking attendance: ' + error.message;
-        resultDiv.style.display = 'block';
+        const indicator = document.getElementById('last-scanned-indicator');
+        indicator.className = 'last-scanned-indicator warning';
+        indicator.textContent = `⚠️ Error: ${error.message}`;
+        indicator.style.display = 'block';
         
         setTimeout(() => {
-            resultDiv.style.display = 'none';
-        }, 2500);
+            indicator.style.display = 'none';
+        }, 3000);
     });
 }
 
@@ -232,4 +215,59 @@ function updateAttendanceCount() {
         const rows = document.getElementById('attendance-body').rows.length;
         countElement.textContent = rows;
     }
+}
+
+function showError(message) {
+    const indicator = document.getElementById('last-scanned-indicator');
+    indicator.className = 'last-scanned-indicator warning';
+    indicator.textContent = `⚠️ ${message}`;
+    indicator.style.display = 'block';
+    
+    setTimeout(() => {
+        indicator.style.display = 'none';
+    }, 3000);
+}
+
+function clearAttendanceTable() {
+    const tbody = document.getElementById('attendance-body');
+    tbody.innerHTML = '';
+    markedAttendees.clear();
+    updateAttendanceCount();
+}
+
+function loadMarkedAttendees() {
+    if (!selectedEvent) return;
+    
+    fetch(`/scan/api/attendees/${selectedEvent}?time_slot=${selectedTimeSlot}`)
+        .then(response => response.json())
+        .then(data => {
+            if (data.success) {
+                const tbody = document.getElementById('attendance-body');
+                tbody.innerHTML = '';
+                markedAttendees.clear();
+                
+                data.attendees.forEach(attendee => {
+                    const row = tbody.insertRow(-1);
+                    row.className = 'new-scan-row';
+                    
+                    const timeObj = new Date(attendee.timestamp);
+                    const timeString = timeObj.toLocaleTimeString();
+                    
+                    row.innerHTML = `
+                        <td>${attendee.user_id}</td>
+                        <td>${attendee.user_name}</td>
+                        <td>${timeString}</td>
+                    `;
+                    row.style.animation = 'slideInRow 0.4s ease-out';
+                    
+                    // Track in markedAttendees using a combination to handle duplicates
+                    markedAttendees.add(attendee.user_id + '-' + selectedTimeSlot);
+                });
+                
+                updateAttendanceCount();
+            }
+        })
+        .catch(error => {
+            console.error('Error loading attendees:', error);
+        });
 }

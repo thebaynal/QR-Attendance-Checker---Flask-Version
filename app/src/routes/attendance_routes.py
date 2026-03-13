@@ -135,6 +135,39 @@ def attendance_history(event_id):
     )
 
 
+@attendance_bp.route('/api/attendees/<event_id>', methods=['GET'])
+@login_required
+def get_event_attendees(event_id):
+    """Get all marked attendees for an event."""
+    try:
+        time_slot = request.args.get('time_slot', 'morning')
+        
+        # Fetch all attendance records for this event and time slot
+        attendees = db._execute(
+            """SELECT user_id, user_name, timestamp 
+               FROM attendance 
+               WHERE event_id = ? AND time_slot = ?
+               ORDER BY timestamp DESC""",
+            (event_id, time_slot),
+            fetch_all=True
+        ) or []
+        
+        return jsonify({
+            'success': True,
+            'attendees': [
+                {
+                    'user_id': record[0],
+                    'user_name': record[1],
+                    'timestamp': record[2]
+                }
+                for record in attendees
+            ]
+        }), 200
+        
+    except Exception as e:
+        return jsonify({'error': str(e)}), 500
+
+
 @attendance_bp.route('/api/quick-mark', methods=['POST'])
 @login_required
 def quick_mark():
