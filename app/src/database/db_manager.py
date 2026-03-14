@@ -507,7 +507,7 @@ class Database:
                 WHERE event_id = ? AND user_id = ?
                 """
             
-            self._execute(update_query, (time_now, event_id, school_id))
+            self._execute(update_query, (time_now, event_id, school_id), commit=True)
         else:
             # Create new record
             insert_query = """
@@ -516,32 +516,24 @@ class Database:
             VALUES (?, ?, ?, 'Present', ?)
             """.format(time_slot, time_slot)
             
-            self._execute(insert_query, (event_id, school_id, time_now, date_now))
+            self._execute(insert_query, (event_id, school_id, time_now, date_now), commit=True)
         
         return True
 
     def get_attendance_by_section(self, event_id: str) -> dict:
-        """Get attendance grouped by year and section."""
+        """Get attendance grouped by year and section from attendance table."""
         query = """
         SELECT 
             s.school_id,
             s.name,
-            
             COALESCE(json_extract(s.csv_data, '$.Course'), 'N/A') AS course,
             COALESCE(json_extract(s.csv_data, '$.Year'), 'N/A') AS year_level,
             COALESCE(json_extract(s.csv_data, '$.Section'), 'N/A') AS section,
-
-            COALESCE(a.morning_time, '') AS morning_time,
-            COALESCE(a.morning_status, 'Absent') AS morning_status,
-            COALESCE(a.lunch_time, '') AS lunch_time,
-            COALESCE(a.lunch_status, 'Absent') AS lunch_status,
-            COALESCE(a.afternoon_time, '') AS afternoon_time,
-            COALESCE(a.afternoon_status, 'Absent') AS afternoon_status
-
+            att.time_slot,
+            att.timestamp
         FROM students_qrcodes s
-        LEFT JOIN attendance_timeslots a 
-            ON s.school_id = a.user_id AND a.event_id = ?
-
+        LEFT JOIN attendance att 
+            ON s.school_id = att.user_id AND att.event_id = ?
         ORDER BY 
             json_extract(s.csv_data, '$.Course'),
             json_extract(s.csv_data, '$.Year'),
@@ -551,29 +543,54 @@ class Database:
         
         results = self._execute(query, (event_id,), fetch_all=True)
         
-        # Handle case where results is None or empty
         if not results:
             return {}
         
-        # Group by section
-        grouped_data = {}
-        for row in results:
-            school_id, name, course, year, section, m_time, m_status, l_time, l_status, a_time, a_status = row
-    
-            section_key = f"{course or 'N/A'} - {year}{section or 'N/A'}"
+        # Build attendance dict keyed by school_id and timeslot
+        student_attendance = {}
+        for school_id, name, course, year, section, time_slot, timestamp in results:
+            if school_id not in student_attendance:
+                student_attendance[school_id] = {
+                    'name': name,
+                    'course': course or 'N/A',
+                    'year': year or 'N/A',
+                    'section': section or 'N/A',
+                    'morning_time': '',
+                    'morning_status': 'Absent',
+                    'lunch_time': '',
+                    'lunch_status': 'Absent',
+                    'afternoon_time': '',
+                    'afternoon_status': 'Absent'
+                }
             
+            # Map timeslot to the correct fields
+            if time_slot and timestamp:
+                if time_slot == 'morning':
+                    student_attendance[school_id]['morning_time'] = timestamp
+                    student_attendance[school_id]['morning_status'] = 'Present'
+                elif time_slot == 'lunch':
+                    student_attendance[school_id]['lunch_time'] = timestamp
+                    student_attendance[school_id]['lunch_status'] = 'Present'
+                elif time_slot in ('afternoon', 'evening'):  # Support old 'evening' value too
+                    student_attendance[school_id]['afternoon_time'] = timestamp
+                    student_attendance[school_id]['afternoon_status'] = 'Present'
+        
+        # Reorganize into grouped format by section
+        grouped_data = {}
+        for school_id, attendance_data in student_attendance.items():
+            section_key = f"{attendance_data['course']} - {attendance_data['year']}{attendance_data['section']}"
             if section_key not in grouped_data:
                 grouped_data[section_key] = []
             
             grouped_data[section_key].append({
                 'school_id': school_id,
-                'name': name,
-                'morning_time': m_time,
-                'morning_status': m_status,
-                'lunch_time': l_time,
-                'lunch_status': l_status,
-                'afternoon_time': a_time,
-                'afternoon_status': a_status
+                'name': attendance_data['name'],
+                'morning_time': attendance_data['morning_time'],
+                'morning_status': attendance_data['morning_status'],
+                'lunch_time': attendance_data['lunch_time'],
+                'lunch_status': attendance_data['lunch_status'],
+                'afternoon_time': attendance_data['afternoon_time'],
+                'afternoon_status': attendance_data['afternoon_status']
             })
         
         return grouped_data
