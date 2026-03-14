@@ -735,6 +735,39 @@ html.dark-mode .modal-icon {
     }
 }
 
+/* Details / Collapsible Elements */
+details > summary {
+    list-style: none;
+    cursor: pointer;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    user-select: none;
+    transition: var(--transition);
+}
+
+details > summary::-webkit-details-marker {
+    display: none;
+}
+
+details > summary::after {
+    content: '▼';
+    font-size: 0.8em;
+    color: var(--text-color);
+    transition: transform 0.3s ease;
+    margin-left: 12px;
+    flex-shrink: 0;
+}
+
+details[open] > summary::after {
+    transform: rotate(-180deg);
+}
+
+details > summary h2 {
+    margin: 0;
+    flex: 1;
+}
+
 /* Responsive */
 @media (max-width: 1200px) {
     .navbar-container {

@@ -12,9 +12,9 @@
     <!-- QR Input Methods Section -->
     <div class="qr-input-section">
         <!-- Single QR Generation Section -->
-        <div class="card qr-single-card">
-        <h2>✨ Generate Single QR Code</h2>
-        <p class="info-text">Create a QR code for a single student instantly</p>
+        <details class="card qr-single-card">
+            <summary><h2>✨ Generate Single QR Code</h2></summary>
+            <p class="info-text">Create a QR code for a single student instantly</p>
         
         <form id="single-qr-form" class="single-qr-form">
             <div class="form-row">
@@ -61,13 +61,12 @@
         
         <div id="single-qr-result" class="upload-result" style="display: none;">
             <div id="single-result-message" class="result-message"></div>
-        </div>
-    </div>
+        </details>
 
-    <!-- CSV Upload Section -->
-    <div class="card qr-upload-card">
-        <h2>📤 Import CSV File</h2>
-        <p class="info-text">Upload a CSV file containing student information to generate QR codes</p>
+        <!-- CSV Upload Section -->
+        <details class="card qr-upload-card">
+            <summary><h2>📤 Import CSV File</h2></summary>
+            <p class="info-text">Upload a CSV file containing student information to generate QR codes</p>
         
         <div class="csv-template-info">
             <details>
@@ -133,7 +132,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
                 <ul id="error-items"></ul>
             </div>
         </div>
-    </div>
+        </details>
     </div>
 
     <!-- Generated QR Codes Section -->
@@ -252,6 +251,38 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
     margin-bottom: 0;
     background: linear-gradient(135deg, var(--card-bg) 0%, rgba(42, 115, 255, 0.02) 100%);
     border: 1px solid rgba(42, 115, 255, 0.1);
+}
+
+.qr-upload-card summary, .qr-single-card summary {
+    cursor: pointer;
+    user-select: none;
+    padding: 15px;
+    margin: -15px;
+    transition: all 0.2s ease;
+    list-style: none;
+}
+
+.qr-upload-card summary:hover, .qr-single-card summary:hover {
+    background: rgba(42, 115, 255, 0.05);
+    border-radius: 4px;
+}
+
+.qr-upload-card summary h2, .qr-single-card summary h2 {
+    margin: 0;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: var(--primary-color);
+    font-size: 1.35em;
+}
+
+.qr-upload-card summary::marker, .qr-single-card summary::marker {
+    display: none;
+}
+
+.qr-upload-card[open] > *:not(summary),
+.qr-single-card[open] > *:not(summary) {
+    animation: slideInDown 0.3s ease-out;
 }
 
 .qr-upload-card h2, .qr-single-card h2 {
