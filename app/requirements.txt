@@ -3,7 +3,6 @@ flask==3.0.0
 flask-cors==4.0.0
 flask-session==0.5.0
 python-dotenv==1.0.0
-Pillow>=10.3.0
 
 # Security
 bcrypt==4.1.2
@@ -14,7 +13,7 @@ reportlab==4.0.7
 
 # QR Code
 qrcode==7.4.2
-Pillow==10.1.0
+Pillow>=10.3.0
 pyzbar==0.1.9
 opencv-python==4.10.0.84
 
