@@ -596,23 +596,63 @@ function stopScanner() {
 
 function toggleCamera() {
     currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
-    selectedCameraId = ''; // Clear so facingMode constraints are used
     const btn = document.getElementById('switch-camera-btn');
     const originalHtml = btn ? btn.innerHTML : '';
     if (btn) {
         btn.disabled = true;
         btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Switching...';
     }
-    setScannerStatus(`Switching to ${currentFacingMode === 'user' ? 'front' : 'back'} camera...`);
+    const wantFront = currentFacingMode === 'user';
+    setScannerStatus(`Switching to ${wantFront ? 'front' : 'back'} camera...`);
+
+    const currentDeviceId = selectedCameraId;
+    selectedCameraId = '';
+
     stopScanner();
-    // Longer delay to ensure previous camera tracks are fully released
-    setTimeout(() => {
+
+    // Enumerate cameras and pick the best match for the desired facing mode
+    const pickCameraByDeviceId = async () => {
+        if (!navigator.mediaDevices || !navigator.mediaDevices.enumerateDevices) {
+            return false;
+        }
+        try {
+            const devices = await navigator.mediaDevices.enumerateDevices();
+            const cameras = devices.filter(d => d.kind === 'videoinput');
+            if (cameras.length < 2) return false;
+
+            // Try to match by label keywords
+            const frontKeywords = ['front', 'selfie', 'user', 'face'];
+            const backKeywords = ['back', 'rear', 'environment', 'main'];
+            const keywords = wantFront ? frontKeywords : backKeywords;
+
+            let match = cameras.find(c => {
+                const label = (c.label || '').toLowerCase();
+                return keywords.some(k => label.includes(k));
+            });
+
+            // If no label match, just pick any camera that isn't the current one
+            if (!match) {
+                match = cameras.find(c => c.deviceId !== currentDeviceId);
+            }
+
+            if (match) {
+                selectedCameraId = match.deviceId;
+                return true;
+            }
+            return false;
+        } catch (e) {
+            return false;
+        }
+    };
+
+    setTimeout(async () => {
+        await pickCameraByDeviceId();
         startQRScanner();
         if (btn) {
             btn.disabled = false;
             btn.innerHTML = originalHtml;
         }
-    }, 800);
+    }, 600);
 }
 
 function submitQRCode() {
