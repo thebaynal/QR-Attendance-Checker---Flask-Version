@@ -4,12 +4,20 @@
 
 {% block content %}
 <div class="dashboard-header">
-    <h1>Welcome, {{ username }}!</h1>
-    {% if user_role == 'admin' %}
-    <p>Your Attendance Management Dashboard</p>
-    {% else %}
-    <p>Your Scanner Dashboard for live attendance operations</p>
-    {% endif %}
+    <div class="dashboard-hero">
+        <div class="hero-content">
+            <h1><i class="fa-solid fa-house-signal" aria-hidden="true"></i> Welcome back, {{ username }}!</h1>
+            {% if user_role == 'admin' %}
+            <p>Manage events, users, and attendance from your dashboard.</p>
+            {% else %}
+            <p>Your scanner dashboard is ready for live attendance operations.</p>
+            {% endif %}
+        </div>
+        <div class="hero-badge">
+            <i class="fa-solid fa-shield-check"></i>
+            <span>System Active</span>
+        </div>
+    </div>
 </div>
 
 {% set latest = recent_attendance[0] if recent_attendance else None %}
@@ -141,26 +149,82 @@
     margin-bottom: 28px;
 }
 
-.dashboard-header h1 {
-    margin: 0 0 6px 0;
-    font-size: 1.8em;
-    font-weight: 700;
-    background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-    -webkit-background-clip: text;
-    -webkit-text-fill-color: transparent;
-    background-clip: text;
-    font-family: 'Poppins', sans-serif;
+.dashboard-hero {
+    background: linear-gradient(135deg, #1E3A8A 0%, #2563EB 60%, #7C3AED 100%);
+    border-radius: 16px;
+    padding: 28px 32px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    box-shadow: 0 8px 32px rgba(37, 99, 235, 0.35);
+    position: relative;
+    overflow: hidden;
 }
 
-.dashboard-header p {
+.dashboard-hero::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    right: -40px;
+    width: 200px;
+    height: 200px;
+    background: rgba(255, 255, 255, 0.05);
+    border-radius: 50%;
+}
+
+.dashboard-hero::after {
+    content: '';
+    position: absolute;
+    bottom: -60px;
+    right: 80px;
+    width: 160px;
+    height: 160px;
+    background: rgba(255, 255, 255, 0.04);
+    border-radius: 50%;
+}
+
+.hero-content h1 {
+    margin: 0 0 6px 0;
+    font-size: 1.7em;
+    font-weight: 800;
+    color: #FFFFFF;
+    font-family: 'Poppins', sans-serif;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.hero-content p {
     margin: 0;
-    color: var(--text-secondary);
-    font-size: 1em;
+    color: rgba(255, 255, 255, 0.75);
+    font-size: 0.95em;
+}
+
+.hero-badge {
+    background: rgba(255, 255, 255, 0.15);
+    border: 1px solid rgba(255, 255, 255, 0.25);
+    border-radius: 99px;
+    padding: 10px 18px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    color: rgba(255, 255, 255, 0.9);
+    font-size: 0.88em;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    z-index: 1;
+}
+
+.hero-badge i {
+    color: #34D399;
+    font-size: 1.1em;
 }
 
 .stats-grid {
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
     gap: 16px;
     margin-bottom: 28px;
 }
@@ -175,6 +239,7 @@
 .pulse-card {
     background: var(--card-bg);
     border: 1px solid var(--border-color);
+    border-left: 4px solid var(--primary-color);
     border-radius: var(--border-radius);
     padding: 16px 18px;
     box-shadow: var(--shadow);
@@ -189,7 +254,7 @@
 .pulse-card h3 {
     margin: 0;
     font-size: 0.82em;
-    color: var(--text-secondary);
+    color: var(--primary-color);
     display: inline-flex;
     gap: 8px;
     align-items: center;
@@ -219,17 +284,35 @@
     align-items: center;
     transition: var(--transition);
     box-shadow: var(--shadow);
+    position: relative;
+    overflow: hidden;
 }
+
+.stat-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    border-radius: 0;
+}
+
+.stat-card:nth-child(1)::before { background: var(--primary-color); }
+.stat-card:nth-child(2)::before { background: var(--success-color); }
+.stat-card:nth-child(3)::before { background: var(--secondary-color); }
+.stat-card:nth-child(4)::before { background: var(--accent-color); }
 
 .stat-card:hover {
     box-shadow: var(--shadow-lg);
     transform: translateY(-3px);
-    border-color: var(--primary-color);
+    border-color: rgba(37, 99, 235, 0.25);
 }
 
 .stat-icon {
-    font-size: 1.8em;
+    font-size: 1.6em;
     margin-right: 18px;
+    margin-left: 8px;
     width: 52px;
     height: 52px;
     display: flex;
@@ -240,19 +323,19 @@
 }
 
 .stat-card:nth-child(1) .stat-icon {
-    background: rgba(79, 110, 247, 0.1);
+    background: rgba(37, 99, 235, 0.12);
     color: var(--primary-color);
 }
 .stat-card:nth-child(2) .stat-icon {
-    background: rgba(16, 185, 129, 0.1);
+    background: rgba(16, 185, 129, 0.12);
     color: var(--success-color);
 }
 .stat-card:nth-child(3) .stat-icon {
-    background: rgba(124, 92, 252, 0.1);
+    background: rgba(124, 58, 237, 0.12);
     color: var(--secondary-color);
 }
 .stat-card:nth-child(4) .stat-icon {
-    background: rgba(6, 182, 212, 0.1);
+    background: rgba(6, 182, 212, 0.12);
     color: var(--accent-color);
 }
 
@@ -272,9 +355,10 @@
 
 .stat-value {
     margin: 0;
-    font-size: 1.8em;
-    font-weight: 700;
+    font-size: 2em;
+    font-weight: 800;
     color: var(--text-color);
+    line-height: 1.1;
 }
 
 .quick-actions {
@@ -303,11 +387,35 @@
     padding: 24px;
     box-shadow: var(--shadow);
     border: 1px solid var(--border-color);
+    position: relative;
+    overflow: hidden;
+}
+
+.recent-activity::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
 }
 
 @media (max-width: 700px) {
     .pulse-board {
         grid-template-columns: 1fr;
+    }
+    .dashboard-hero {
+        flex-direction: column;
+        align-items: flex-start;
+        padding: 20px;
+    }
+    .hero-content h1 {
+        font-size: 1.3em;
+    }
+    .hero-badge {
+        width: 100%;
+        justify-content: center;
     }
 }
 

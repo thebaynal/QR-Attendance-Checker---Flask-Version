@@ -257,8 +257,8 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 /* Upload and Single Cards */
 .qr-upload-card, .qr-single-card {
     margin-bottom: 0;
-    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(79, 110, 247, 0.02) 100%);
-    border: 1px solid rgba(79, 110, 247, 0.1);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(37, 99, 235, 0.02) 100%);
+    border: 1px solid rgba(37, 99, 235, 0.1);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -332,8 +332,8 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 }
 
 .qr-upload-card[open] summary, .qr-single-card[open] summary {
-    background: rgba(79, 110, 247, 0.05);
-    border-bottom: 1px solid rgba(79, 110, 247, 0.1);
+    background: rgba(37, 99, 235, 0.05);
+    border-bottom: 1px solid rgba(37, 99, 235, 0.1);
 }
 
 .qr-upload-card > *:not(summary), .qr-single-card > *:not(summary) {
@@ -407,7 +407,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 
 .csv-template-info summary:hover {
     color: #1e52cc;
-    background: rgba(79, 110, 247, 0.05);
+    background: rgba(37, 99, 235, 0.05);
 }
 
 .csv-template-info details[open] summary {
@@ -558,7 +558,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 
 .optional-fields-details summary:hover {
     color: var(--primary-color);
-    background: rgba(79, 110, 247, 0.05);
+    background: rgba(37, 99, 235, 0.05);
 }
 
 html.dark-mode .optional-fields-details summary {
@@ -639,15 +639,15 @@ html.dark-mode .optional-fields-details summary:hover {
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, rgba(79, 110, 247, 0.05), rgba(79, 110, 247, 0.01));
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.05), rgba(37, 99, 235, 0.01));
     min-height: 150px;
 }
 
 .file-label:hover {
-    background: linear-gradient(135deg, rgba(79, 110, 247, 0.15), rgba(79, 110, 247, 0.08));
+    background: linear-gradient(135deg, rgba(37, 99, 235, 0.15), rgba(37, 99, 235, 0.08));
     border-color: #1e52cc;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(79, 110, 247, 0.15);
+    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
 }
 
 .file-icon {
@@ -909,7 +909,7 @@ html.dark-mode .optional-fields-details summary:hover {
     justify-content: space-between;
     padding: 12px 16px;
     background: var(--primary-light);
-    border: 1px solid rgba(79, 110, 247, 0.2);
+    border: 1px solid rgba(37, 99, 235, 0.2);
     border-radius: 6px;
     margin-bottom: 15px;
     animation: slideInUp 0.3s ease-out;
@@ -999,8 +999,8 @@ html.dark-mode .optional-fields-details summary:hover {
 
 .qr-code-card.selected {
     border-color: var(--primary-color);
-    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(79, 110, 247, 0.08) 100%);
-    box-shadow: 0 0 0 2px rgba(79, 110, 247, 0.1);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(37, 99, 235, 0.08) 100%);
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.1);
 }
 
 .qr-code-checkbox {
@@ -1399,18 +1399,18 @@ clearFileBtn.addEventListener('click', (e) => {
 // Drag and drop
 fileLabel.addEventListener('dragover', (e) => {
     e.preventDefault();
-    fileLabel.style.background = 'rgba(79, 110, 247, 0.15)';
+    fileLabel.style.background = 'rgba(37, 99, 235, 0.15)';
 });
 
 fileLabel.addEventListener('dragleave', () => {
     if (csvFileInput.files.length === 0) {
-        fileLabel.style.background = 'rgba(79, 110, 247, 0.02)';
+        fileLabel.style.background = 'rgba(37, 99, 235, 0.02)';
     }
 });
 
 fileLabel.addEventListener('drop', (e) => {
     e.preventDefault();
-    fileLabel.style.background = 'rgba(79, 110, 247, 0.02)';
+    fileLabel.style.background = 'rgba(37, 99, 235, 0.02)';
     
     if (e.dataTransfer.files.length > 0) {
         const file = e.dataTransfer.files[0];
