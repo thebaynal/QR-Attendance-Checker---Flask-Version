@@ -230,7 +230,8 @@ function setupCameraSelector(cameraSelect) {
         selectedCameraId = this.value;
         if (selectedEvent) {
             setScannerStatus('Switching camera...');
-            startQRScanner();
+            stopScanner();
+            setTimeout(() => startQRScanner(), 500);
         }
     });
 
@@ -362,22 +363,23 @@ function requestAndroidNativeScan(source) {
 
 function getConstraintAttempts() {
     if (selectedCameraId) {
+        // Desktop path: use selected device from the camera picker dropdown
         return [
             {
                 label: 'selected camera',
                 constraints: {
                     video: {
-                        deviceId: { exact: selectedCameraId },
+                        deviceId: { ideal: selectedCameraId },
                         width: { ideal: 1280 },
                         height: { ideal: 720 }
                     }
                 }
             },
             {
-                label: 'selected camera (fallback)',
+                label: 'selected camera (exact)',
                 constraints: {
                     video: {
-                        deviceId: selectedCameraId,
+                        deviceId: { exact: selectedCameraId },
                         width: { ideal: 1280 },
                         height: { ideal: 720 }
                     }
@@ -395,12 +397,12 @@ function getConstraintAttempts() {
         ];
     }
 
+    // Mobile path: use facingMode to pick front/back camera
     const preferred = currentFacingMode;
-    const fallback = preferred === 'environment' ? 'user' : 'environment';
 
     return [
         {
-            label: `${preferred} camera`,
+            label: `${preferred} camera (exact)`,
             constraints: {
                 video: {
                     facingMode: { exact: preferred },
@@ -410,29 +412,20 @@ function getConstraintAttempts() {
             }
         },
         {
-            label: `${preferred} camera (preferred)`,
+            label: `${preferred} camera (ideal)`,
+            constraints: {
+                video: {
+                    facingMode: { ideal: preferred },
+                    width: { ideal: 640 },
+                    height: { ideal: 480 }
+                }
+            }
+        },
+        {
+            label: `${preferred} camera (hint)`,
             constraints: {
                 video: {
                     facingMode: preferred,
-                    width: { ideal: 640 },
-                    height: { ideal: 480 }
-                }
-            }
-        },
-        {
-            label: `${fallback} camera fallback`,
-            constraints: {
-                video: {
-                    facingMode: fallback,
-                    width: { ideal: 640 },
-                    height: { ideal: 480 }
-                }
-            }
-        },
-        {
-            label: 'any available camera',
-            constraints: {
-                video: {
                     width: { ideal: 640 },
                     height: { ideal: 480 }
                 }
@@ -604,9 +597,22 @@ function stopScanner() {
 function toggleCamera() {
     currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
     selectedCameraId = ''; // Clear so facingMode constraints are used
+    const btn = document.getElementById('switch-camera-btn');
+    const originalHtml = btn ? btn.innerHTML : '';
+    if (btn) {
+        btn.disabled = true;
+        btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Switching...';
+    }
     setScannerStatus(`Switching to ${currentFacingMode === 'user' ? 'front' : 'back'} camera...`);
     stopScanner();
-    setTimeout(() => startQRScanner(), 400);
+    // Longer delay to ensure previous camera tracks are fully released
+    setTimeout(() => {
+        startQRScanner();
+        if (btn) {
+            btn.disabled = false;
+            btn.innerHTML = originalHtml;
+        }
+    }, 800);
 }
 
 function submitQRCode() {
