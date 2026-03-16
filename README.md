@@ -4,7 +4,7 @@ A modern Flask-based web application for managing employee attendance using QR c
 
 **Tagline:** "Where showing up is mandatory, bro."
 
-🌐 **Live Demo:** [mascan-qr.azurewebsites.net](https://mascan-qr.azurewebsites.net)
+🌐 **Live Demo:** [mascan-qr.azurewebsites.net](https://mascan.me/)
 
 ---
 
