@@ -81,10 +81,29 @@ def edit_user(target_username):
     if not target_user:
         return redirect(url_for('user.list_users'))
     
+    is_self = (username == target_username)
+    
     if request.method == 'POST':
         full_name = request.form.get('full_name', '').strip()
         role = request.form.get('role', 'scanner').strip()
         password = request.form.get('password', '').strip()
+        
+        # Prevent admin from changing own role
+        if is_self and target_user[3] == 'admin':
+            role = 'admin'
+        
+        # Prevent demoting the last admin
+        if target_user[3] == 'admin' and role != 'admin':
+            admin_count = db._execute("SELECT COUNT(*) FROM users WHERE role = 'admin'", fetch_one=True)
+            if admin_count[0] <= 1:
+                return render_template(
+                    'users/edit.html',
+                    username=username,
+                    user_role=user[3],
+                    target_user=target_user,
+                    is_self=is_self,
+                    error='Cannot demote the last admin. Promote another user first.'
+                )
         
         if not full_name:
             return render_template(
@@ -92,6 +111,7 @@ def edit_user(target_username):
                 username=username,
                 user_role=user[3],
                 target_user=target_user,
+                is_self=is_self,
                 error='Full name is required'
             )
         
@@ -116,7 +136,8 @@ def edit_user(target_username):
         'users/edit.html',
         username=username,
         user_role=user[3],
-        target_user=target_user
+        target_user=target_user,
+        is_self=is_self
     )
 
 
