@@ -12,9 +12,15 @@ sys.path.insert(0, os.path.join(os.path.dirname(__file__), 'src'))
 
 from flask_app import create_app
 
+app = create_app()
+
 if __name__ == '__main__':
+<<<<<<< HEAD
     app = create_app()
 
+=======
+    
+>>>>>>> ffd5a9f305cae5c744fb7f1aa1b902697aef5ea6
     # Configuration
     debug_mode = os.getenv('DEBUG', 'True').lower() == 'true'
     host = os.getenv('HOST', '0.0.0.0')
