@@ -4,7 +4,14 @@ from flask import Blueprint, render_template, request, redirect, url_for, sessio
 from database.db_manager import Database
 from routes.auth_routes import login_required, admin_required
 import uuid
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+# Philippine timezone (UTC+8)
+PH_TZ = timezone(timedelta(hours=8))
+
+def now_ph():
+    """Return current datetime in Philippine time."""
+    return datetime.now(PH_TZ)
 
 event_bp = Blueprint('event', __name__, url_prefix='/events')
 db = Database()
@@ -29,7 +36,7 @@ def list_events():
     events = db.get_all_events()
     
     # Sort events: today first, then past (descending), then future (ascending)
-    today = datetime.now().date()
+    today = now_ph().date()
     
     today_events = []
     past_events = []
@@ -98,7 +105,7 @@ def create_event():
             )
         
         # Restrict to today or future
-        today = datetime.now().date()
+        today = now_ph().date()
         if event_date_obj < today:
             return render_template(
                 'events/create.html',
@@ -185,7 +192,7 @@ def edit_event(event_id):
             )
             
         # Restrict to today or future
-        today = datetime.now().date()
+        today = now_ph().date()
         if event_date_obj < today:
             return render_template(
                 'events/edit.html',

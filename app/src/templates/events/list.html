@@ -86,20 +86,19 @@
         {% endif %}
         {% endif %}
 
-        <!-- PAST & FUTURE EVENTS SECTION -->
-        {% if past_events or future_events %}
+        <!-- UPCOMING EVENTS SECTION -->
+        {% if future_events %}
         <div class="events-section">
             <div class="section-header other-section">
                 <div class="section-title-wrapper">
                     <span class="section-badge other-badge"><i class="fa-regular fa-calendar" aria-hidden="true"></i></span>
-                    <h2 class="section-title">Other Events</h2>
+                    <h2 class="section-title">Upcoming Events</h2>
                 </div>
-                <p class="section-subtitle">{{ past_events|length + future_events|length }} event{{ 's' if
-                    (past_events|length + future_events|length) != 1 else '' }}</p>
+                <p class="section-subtitle">{{ future_events|length }} event{{ 's' if future_events|length != 1 else '' }}</p>
             </div>
             <div class="events-grid">
-                {% for event in past_events %}
-                <div class="event-card past-event" data-event-id="{{ event[0] }}">
+                {% for event in future_events %}
+                <div class="event-card future-event" data-event-id="{{ event[0] }}">
                     <div class="event-card-header">
                         <div class="event-date-badge">
                             <span class="date-text">{{ event[2] }}</span>
@@ -145,8 +144,23 @@
                     </div>
                 </div>
                 {% endfor %}
-                {% for event in future_events %}
-                <div class="event-card future-event" data-event-id="{{ event[0] }}">
+            </div>
+        </div>
+        {% endif %}
+
+        <!-- PAST EVENTS SECTION -->
+        {% if past_events %}
+        <div class="events-section">
+            <div class="section-header other-section">
+                <div class="section-title-wrapper">
+                    <span class="section-badge other-badge"><i class="fa-solid fa-clock-rotate-left" aria-hidden="true"></i></span>
+                    <h2 class="section-title">Past Events</h2>
+                </div>
+                <p class="section-subtitle">{{ past_events|length }} event{{ 's' if past_events|length != 1 else '' }}</p>
+            </div>
+            <div class="events-grid">
+                {% for event in past_events %}
+                <div class="event-card past-event" data-event-id="{{ event[0] }}">
                     <div class="event-card-header">
                         <div class="event-date-badge">
                             <span class="date-text">{{ event[2] }}</span>
