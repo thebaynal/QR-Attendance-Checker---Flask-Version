@@ -603,6 +603,7 @@ function stopScanner() {
 
 function toggleCamera() {
     currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
+    selectedCameraId = ''; // Clear so facingMode constraints are used
     setScannerStatus(`Switching to ${currentFacingMode === 'user' ? 'front' : 'back'} camera...`);
     stopScanner();
     setTimeout(() => startQRScanner(), 400);
