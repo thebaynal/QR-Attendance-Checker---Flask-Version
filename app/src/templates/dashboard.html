@@ -8,9 +8,9 @@
         <div class="hero-content">
             <h1><i class="fa-solid fa-house-signal" aria-hidden="true"></i> Welcome back, {{ username }}!</h1>
             {% if user_role == 'admin' %}
-            <p>Manage events, users, and attendance from your dashboard.</p>
+            <p><span id="dashboard-date"></span> · Manage events, users, and attendance from your dashboard.</p>
             {% else %}
-            <p>Your scanner dashboard is ready for live attendance operations.</p>
+            <p><span id="dashboard-date"></span> · Your scanner dashboard is ready for live attendance operations.</p>
             {% endif %}
         </div>
         <div class="hero-badge">
@@ -473,4 +473,36 @@
     }
 }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Count-up animation for stat values
+    document.querySelectorAll('.stat-value').forEach(el => {
+        const text = el.textContent.trim();
+        const num = parseInt(text, 10);
+        if (isNaN(num) || num <= 0) return;
+        
+        el.textContent = '0';
+        const duration = 1200;
+        const startTime = performance.now();
+        
+        function update(currentTime) {
+            const elapsed = currentTime - startTime;
+            const progress = Math.min(elapsed / duration, 1);
+            // Ease out cubic
+            const eased = 1 - Math.pow(1 - progress, 3);
+            el.textContent = Math.round(eased * num);
+            if (progress < 1) requestAnimationFrame(update);
+        }
+        requestAnimationFrame(update);
+    });
+
+    // Display current date
+    const dateEl = document.getElementById('dashboard-date');
+    if (dateEl) {
+        const now = new Date();
+        const options = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
+        dateEl.textContent = now.toLocaleDateString('en-US', options);
+    }
+});
+</script>
 {% endblock %}

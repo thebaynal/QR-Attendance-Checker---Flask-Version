@@ -21,7 +21,7 @@
 
         <div class="form-group">
             <label for="full_name">Full Name *</label>
-            <input type="text" id="full_name" name="full_name" value="{{ target_user[1] }}" required>
+            <input type="text" id="full_name" name="full_name" value="{{ target_user[1] }}" required maxlength="100" minlength="2">
         </div>
 
         <div class="form-group">
@@ -34,7 +34,7 @@
 
         <div class="form-group">
             <label for="password">New Password (leave empty to keep current)</label>
-            <input type="password" id="password" name="password" placeholder="Leave empty to keep current password">
+            <input type="password" id="password" name="password" placeholder="Leave empty to keep current password" minlength="6">
         </div>
 
         <div class="form-actions">
@@ -137,4 +137,18 @@
     .form-actions { flex-direction: column; }
 }
 </style>
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    const form = document.querySelector('.form');
+    if (form) {
+        form.addEventListener('submit', function() {
+            const btn = form.querySelector('button[type="submit"]');
+            if (btn) {
+                btn.disabled = true;
+                btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Saving...';
+            }
+        });
+    }
+});
+</script>
 {% endblock %}

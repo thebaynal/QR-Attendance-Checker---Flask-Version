@@ -49,29 +49,7 @@
     </nav>
     {% endif %}
 
-    <div class="container">
-        {% with messages = get_flashed_messages(with_categories=true) %}
-            {% if messages %}
-                {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}" style="animation: slideInDown 0.3s ease-out;">
-                        <span class="alert-content">
-                            {% if category == 'success' %}
-                            <i class="fa-solid fa-circle-check"></i>
-                            {% elif category == 'danger' %}
-                            <i class="fa-solid fa-circle-xmark"></i>
-                            {% elif category == 'warning' %}
-                            <i class="fa-solid fa-triangle-exclamation"></i>
-                            {% else %}
-                            <i class="fa-solid fa-circle-info"></i>
-                            {% endif %}
-                            {{ message }}
-                        </span>
-                        <button class="alert-close" onclick="this.parentElement.style.display='none'" aria-label="Close">&times;</button>
-                    </div>
-                {% endfor %}
-            {% endif %}
-        {% endwith %}
-
+    <div class="container page-enter">
         {% block content %}{% endblock %}
     </div>
 
@@ -84,6 +62,20 @@
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/modal.js') }}"></script>
     {% block extra_js %}{% endblock %}
+
+    <div id="toast-container"></div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+        <script>
+            document.addEventListener('DOMContentLoaded', function() {
+                {% for category, message in messages %}
+                showToast('{{ message | e }}', '{{ category }}');
+                {% endfor %}
+            });
+        </script>
+        {% endif %}
+    {% endwith %}
 
     <!-- Delete Confirmation Modal -->
     <div id="deleteConfirmModal" class="modal-backdrop">

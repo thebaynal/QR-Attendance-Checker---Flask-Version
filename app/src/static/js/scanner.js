@@ -819,7 +819,7 @@ function playAudioBeep() {
         oscillator.start();
         oscillator.stop(audioCtx.currentTime + 0.1);
     } catch(e) {
-        console.log("Audio beep failed", e);
+        // Audio beep not supported; silently ignore.
     }
 }
 

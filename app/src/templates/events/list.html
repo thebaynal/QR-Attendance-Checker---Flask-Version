@@ -9,6 +9,12 @@
             <h1>Events Management</h1>
             <p>Organize and track all attendance events</p>
         </div>
+        <div class="events-search">
+            <div class="search-input-wrapper">
+                <i class="fa-solid fa-magnifying-glass search-icon"></i>
+                <input type="text" id="event-search" placeholder="Search events..." class="search-input" oninput="filterEvents(this.value)">
+            </div>
+        </div>
         {% if user_role == 'admin' %}
         <a href="{{ url_for('event.create_event') }}" class="btn btn-primary btn-lg">
             <span class="icon">+</span> Create Event
@@ -233,6 +239,49 @@
         align-items: center;
         margin-bottom: 40px;
         gap: 20px;
+    }
+
+    .events-search {
+        flex: 1;
+        max-width: 320px;
+        min-width: 200px;
+    }
+
+    .search-input-wrapper {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+    .search-icon {
+        position: absolute;
+        left: 14px;
+        color: var(--text-secondary);
+        font-size: 0.9em;
+        pointer-events: none;
+    }
+
+    .search-input {
+        width: 100%;
+        padding: 10px 14px 10px 40px;
+        border: 1.5px solid var(--border-color);
+        border-radius: 99px;
+        background: var(--card-bg);
+        color: var(--text-color);
+        font-size: 0.9rem;
+        font-family: inherit;
+        transition: all 0.2s;
+    }
+
+    .search-input:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: var(--focus-ring);
+    }
+
+    .search-input::placeholder {
+        color: var(--text-secondary);
+        opacity: 0.6;
     }
 
     .header-content h1 {
@@ -643,6 +692,8 @@
         .header-content h1 {
             font-size: 1.8rem;
         }
+
+        .events-search { max-width: 100%; }
     }
 
     /* Script-triggered dropdown menu */
@@ -696,6 +747,21 @@
             },
             eventDate ? `Date: ${eventDate}` : null
         );
+    }
+
+    function filterEvents(query) {
+        const q = query.toLowerCase().trim();
+        document.querySelectorAll('.event-card').forEach(card => {
+            const title = (card.querySelector('.event-title')?.textContent || '').toLowerCase();
+            const desc = (card.querySelector('.event-description')?.textContent || '').toLowerCase();
+            const date = (card.querySelector('.date-text')?.textContent || '').toLowerCase();
+            card.style.display = (title.includes(q) || desc.includes(q) || date.includes(q)) ? '' : 'none';
+        });
+        // Show/hide section headers if all cards in that section are hidden
+        document.querySelectorAll('.events-section').forEach(section => {
+            const visibleCards = section.querySelectorAll('.event-card:not([style*="display: none"])');
+            section.style.display = visibleCards.length === 0 ? 'none' : '';
+        });
     }
 
     async function exportEventPDF(eventId) {
