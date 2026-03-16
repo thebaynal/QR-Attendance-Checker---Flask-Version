@@ -1,1 +1,1 @@
-"""Utilities package."""
+"""Utilities package."""rm -rf * && git clone https://github.com/cloudy-april/QR-Attendance-Checker---Flask-Version.git .

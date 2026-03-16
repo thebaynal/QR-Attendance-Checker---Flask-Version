@@ -1,6 +1,6 @@
 """User management routes."""
 
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash
 from database.db_manager import Database
 from routes.auth_routes import login_required, admin_required
 import uuid
@@ -59,6 +59,7 @@ def create_user():
         
         # Create user
         db.add_user(new_username, password, full_name, role)
+        flash(f'User "{new_username}" created successfully.', 'success')
         
         return redirect(url_for('user.list_users'))
     
@@ -108,6 +109,7 @@ def edit_user(target_username):
                 commit=True
             )
         
+        flash(f'User "{target_username}" updated successfully.', 'success')
         return redirect(url_for('user.list_users'))
     
     return render_template(
@@ -126,6 +128,7 @@ def delete_user(target_username):
     
     # Don't allow deleting yourself
     if username == target_username:
+        flash('You cannot delete your own account.', 'danger')
         return redirect(url_for('user.list_users'))
     
     # Don't allow deleting admin unless it's the only option
@@ -133,8 +136,10 @@ def delete_user(target_username):
     if target_user and target_user[3] == 'admin':
         admins = db._execute("SELECT COUNT(*) FROM users WHERE role = 'admin'", fetch_one=True)
         if admins[0] <= 1:
+            flash('Cannot delete the only admin account.', 'danger')
             return redirect(url_for('user.list_users'))
     
     db._execute("DELETE FROM users WHERE username = ?", (target_username,), commit=True)
+    flash(f'User "{target_username}" deleted successfully.', 'success')
     
     return redirect(url_for('user.list_users'))

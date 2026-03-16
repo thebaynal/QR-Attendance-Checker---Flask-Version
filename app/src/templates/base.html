@@ -14,7 +14,7 @@
         <div class="navbar-container">
             <div class="navbar-brand">
                 <a href="{{ url_for('dashboard.home') }}">
-                    <span class="logo-text"><img src="{{ url_for('static', filename='images/MS_Logo_Blue.ico') }}" alt="Logo"> MaScan</span>
+                    <span class="logo-text"><img src="{{ url_for('static', filename='images/MS_Logo_White.png') }}" alt="Logo"> MaScan</span>
                 </a>
             </div>
             <button class="hamburger-menu" id="hamburgerMenu" aria-label="Toggle menu">
@@ -53,7 +53,21 @@
         {% with messages = get_flashed_messages(with_categories=true) %}
             {% if messages %}
                 {% for category, message in messages %}
-                    <div class="alert alert-{{ category }}">{{ message }}</div>
+                    <div class="alert alert-{{ category }}" style="animation: slideInDown 0.3s ease-out;">
+                        <span class="alert-content">
+                            {% if category == 'success' %}
+                            <i class="fa-solid fa-circle-check"></i>
+                            {% elif category == 'danger' %}
+                            <i class="fa-solid fa-circle-xmark"></i>
+                            {% elif category == 'warning' %}
+                            <i class="fa-solid fa-triangle-exclamation"></i>
+                            {% else %}
+                            <i class="fa-solid fa-circle-info"></i>
+                            {% endif %}
+                            {{ message }}
+                        </span>
+                        <button class="alert-close" onclick="this.parentElement.style.display='none'" aria-label="Close">&times;</button>
+                    </div>
                 {% endfor %}
             {% endif %}
         {% endwith %}

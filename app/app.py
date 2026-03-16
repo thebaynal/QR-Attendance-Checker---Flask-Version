@@ -18,7 +18,7 @@ if __name__ == '__main__':
     app = create_app()
 
     # Configuration
-    debug_mode = os.getenv('DEBUG', 'True').lower() == 'true'
+    debug_mode = os.getenv('DEBUG', 'False').lower() == 'true'
     host = os.getenv('HOST', '0.0.0.0')
     port = int(os.getenv('PORT', 5000))
 

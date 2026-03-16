@@ -1,6 +1,6 @@
 """Event management routes."""
 
-from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify
+from flask import Blueprint, render_template, request, redirect, url_for, session, jsonify, flash
 from database.db_manager import Database
 from routes.auth_routes import login_required, admin_required
 import uuid
@@ -117,6 +117,7 @@ def create_event():
         # Create event
         event_id = str(uuid.uuid4())
         db.add_event(event_id, event_name, event_date, description)
+        flash(f'Event "{event_name}" created successfully.', 'success')
         
         return redirect(url_for('event.list_events'))
     
@@ -207,6 +208,7 @@ def edit_event(event_id):
             (event_name, event_date, description, event_id),
             commit=True
         )
+        flash(f'Event "{event_name}" updated successfully.', 'success')
         
         return redirect(url_for('event.view_event', event_id=event_id))
     
@@ -224,8 +226,10 @@ def delete_event(event_id):
     """Delete event."""
     event = db.get_event(event_id)
     if event:
+        event_name = event[1]
         db._execute("DELETE FROM events WHERE id = ?", (event_id,), commit=True)
         db._execute("DELETE FROM attendance WHERE event_id = ?", (event_id,), commit=True)
+        flash(f'Event "{event_name}" deleted successfully.', 'success')
     
     return redirect(url_for('event.list_events'))
 
@@ -277,7 +281,7 @@ def export_event_api(event_id):
         username = session.get('username')
         db._execute(
             "INSERT INTO activity_log (timestamp, action, user, details) VALUES (?, ?, ?, ?)",
-            (datetime.now().isoformat(), 'EXPORT_ATTENDANCE_PDF', username, f'Exported attendance for event {event[1]}'),
+            (now_ph().isoformat(), 'EXPORT_ATTENDANCE_PDF', username, f'Exported attendance for event {event[1]}'),
             commit=True
         )
             

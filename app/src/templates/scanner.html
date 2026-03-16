@@ -70,7 +70,10 @@
                     <span class="scan-pill">Real-time</span>
                 </div>
 
-                <div id="qr-reader" style="width: 100%; max-width: 500px; margin: 0 auto;"></div>
+                <div class="qr-reader-wrapper" style="position: relative; width: 100%; max-width: 500px; margin: 0 auto; overflow: hidden; border-radius: 12px;">
+                    <div id="qr-reader" style="width: 100%;"></div>
+                    <div class="laser-line"></div>
+                </div>
 
                 <div class="scanner-controls">
                     <label for="camera-select" class="camera-select-label" style="display: none;">Camera</label>

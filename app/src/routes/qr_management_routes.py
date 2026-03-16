@@ -6,7 +6,8 @@ from routes.auth_routes import login_required, admin_required
 import csv
 import io
 import qrcode
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+PH_TZ = timezone(timedelta(hours=8))
 import uuid
 import json
 import zipfile
@@ -298,7 +299,7 @@ def generate_single():
             """INSERT INTO activity_log 
                (timestamp, action, user, details)
                VALUES (?, ?, ?, ?)""",
-            (datetime.now().isoformat(), 'GENERATE_SINGLE_QR', username, f'{action_msg.capitalize()} QR code for {school_id}'),
+            (datetime.now(PH_TZ).isoformat(), 'GENERATE_SINGLE_QR', username, f'{action_msg.capitalize()} QR code for {school_id}'),
             commit=True
         )
             
@@ -379,7 +380,7 @@ def download_all_qr():
             """INSERT INTO activity_log 
                (timestamp, action, user, details)
                VALUES (?, ?, ?, ?)""",
-            (datetime.now().isoformat(), 'DOWNLOAD_QR_CODES', username, f'Downloaded {len(students)} QR codes'),
+            (datetime.now(PH_TZ).isoformat(), 'DOWNLOAD_QR_CODES', username, f'Downloaded {len(students)} QR codes'),
             commit=True
         )
         
@@ -387,7 +388,7 @@ def download_all_qr():
             zip_buffer,
             mimetype='application/zip',
             as_attachment=True,
-            download_name=f'QR_Codes_{datetime.now().strftime("%Y%m%d_%H%M%S")}.zip'
+            download_name=f'QR_Codes_{datetime.now(PH_TZ).strftime("%Y%m%d_%H%M%S")}.zip'
         )
     
     except Exception as e:
@@ -420,7 +421,7 @@ def download_single_qr(school_id):
             """INSERT INTO activity_log 
                (timestamp, action, user, details)
                VALUES (?, ?, ?, ?)""",
-            (datetime.now().isoformat(), 'DOWNLOAD_QR_CODE', username, f'Downloaded QR code for {school_id}'),
+            (datetime.now(PH_TZ).isoformat(), 'DOWNLOAD_QR_CODE', username, f'Downloaded QR code for {school_id}'),
             commit=True
         )
         
@@ -452,7 +453,7 @@ def delete_qr(school_id):
             """INSERT INTO activity_log 
                (timestamp, action, user, details)
                VALUES (?, ?, ?, ?)""",
-            (datetime.now().isoformat(), 'DELETE_QR_CODE', username, f'Deleted QR code for {school_id}'),
+            (datetime.now(PH_TZ).isoformat(), 'DELETE_QR_CODE', username, f'Deleted QR code for {school_id}'),
             commit=True
         )
         
@@ -490,7 +491,7 @@ def delete_bulk_qr():
             """INSERT INTO activity_log 
                (timestamp, action, user, details)
                VALUES (?, ?, ?, ?)""",
-            (datetime.now().isoformat(), 'DELETE_BULK_QR_CODES', username, f'Deleted {len(school_ids)} QR codes'),
+            (datetime.now(PH_TZ).isoformat(), 'DELETE_BULK_QR_CODES', username, f'Deleted {len(school_ids)} QR codes'),
             commit=True
         )
         
@@ -539,7 +540,7 @@ def export_csv():
             """INSERT INTO activity_log 
                (timestamp, action, user, details)
                VALUES (?, ?, ?, ?)""",
-            (datetime.now().isoformat(), 'EXPORT_STUDENTS_CSV', username, f'Exported {len(students)} student records'),
+            (datetime.now(PH_TZ).isoformat(), 'EXPORT_STUDENTS_CSV', username, f'Exported {len(students)} student records'),
             commit=True
         )
         
@@ -547,8 +548,9 @@ def export_csv():
             io.BytesIO(csv_buffer.getvalue().encode('utf-8')),
             mimetype='text/csv',
             as_attachment=True,
-            download_name=f'Students_{datetime.now().strftime("%Y%m%d_%H%M%S")}.csv'
+            download_name=f'Students_{datetime.now(PH_TZ).strftime("%Y%m%d_%H%M%S")}.csv'
         )
     
     except Exception as e:
         return jsonify({'error': str(e)}), 500
+

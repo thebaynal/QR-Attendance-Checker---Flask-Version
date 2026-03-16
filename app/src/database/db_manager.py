@@ -484,10 +484,11 @@ class Database:
 
     def record_timeslot_attendance(self, event_id: str, school_id: str, time_slot: str) -> bool:
         """Record attendance for a specific time slot."""
-        from datetime import datetime
+        from datetime import datetime, timezone, timedelta
+        PH_TZ = timezone(timedelta(hours=8))
         
-        time_now = datetime.now().strftime("%H:%M:%S")
-        date_now = datetime.now().strftime("%Y-%m-%d")
+        time_now = datetime.now(PH_TZ).strftime("%H:%M:%S")
+        date_now = datetime.now(PH_TZ).strftime("%Y-%m-%d")
         
         # Check if record exists
         check_query = "SELECT id FROM attendance_timeslots WHERE event_id = ? AND user_id = ?"
@@ -611,7 +612,7 @@ class Database:
         """
         result = self._execute(query, (event_id, school_id), fetch_one=True)
         
-        return result == 'Present'
+        return result[0] == 'Present' if result else False
 
     def get_student_by_id(self, school_id: str) -> dict:
         """Get student information by school ID."""

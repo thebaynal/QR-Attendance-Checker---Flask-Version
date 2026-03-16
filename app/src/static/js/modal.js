@@ -37,6 +37,7 @@ function closeDeleteModal() {
     const modal = document.getElementById('deleteConfirmModal');
     modal.classList.remove('active');
     deleteCallback = null;
+    document.removeEventListener('keydown', handleModalKeydown);
 }
 
 function confirmDelete() {
@@ -62,13 +63,23 @@ function showAlertModal(title, message, iconClass = 'fa-solid fa-triangle-exclam
 function closeAlertModal() {
     const modal = document.getElementById('alertModal');
     if (modal) modal.classList.remove('active');
+    document.removeEventListener('keydown', handleModalKeydown);
 }
 
 /**
  * PDF Export Logic
  */
 async function exportEventPDF(eventId) {
+    const exportBtn = document.querySelector(`[onclick*="exportEventPDF('${eventId}')"]`) || 
+                      document.querySelector(`[onclick*='exportEventPDF("${eventId}")']`);
+    const originalText = exportBtn ? exportBtn.innerHTML : '';
+    
     try {
+        if (exportBtn) {
+            exportBtn.disabled = true;
+            exportBtn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Generating PDF...';
+        }
+        
         const response = await fetch(`/events/${eventId}/export-api`);
         
         if (!response.ok) {
@@ -99,6 +110,11 @@ async function exportEventPDF(eventId) {
         
     } catch (error) {
         showAlertModal('Network Error', 'Failed to connect to the server. Please try again.', 'fa-solid fa-wifi');
+    } finally {
+        if (exportBtn) {
+            exportBtn.disabled = false;
+            exportBtn.innerHTML = originalText;
+        }
     }
 }
 

@@ -127,6 +127,17 @@ html.dark-mode body {
     }
 }
 
+@keyframes slideInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 @keyframes slideInLeft {
     from {
         opacity: 0;
@@ -533,9 +544,34 @@ html.dark-mode .navbar {
     animation: slideInDown 0.3s ease-out;
     display: flex;
     align-items: center;
+    justify-content: space-between;
     gap: 10px;
     font-size: 0.92em;
     font-weight: 500;
+    transition: opacity 0.3s, transform 0.3s;
+}
+
+.alert-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex: 1;
+}
+
+.alert-close {
+    background: none;
+    border: none;
+    font-size: 1.3em;
+    cursor: pointer;
+    opacity: 0.6;
+    color: inherit;
+    padding: 0 4px;
+    line-height: 1;
+    transition: opacity 0.2s;
+}
+
+.alert-close:hover {
+    opacity: 1;
 }
 
 .alert-danger {
@@ -1132,4 +1168,29 @@ html.dark-mode thead th {
     background: linear-gradient(90deg, rgba(59, 130, 246, 0.12), rgba(139, 92, 246, 0.08)) !important;
     color: var(--primary-color) !important;
     border-bottom-color: rgba(59, 130, 246, 0.25) !important;
+}
+
+/* Scanner Laser Line Additions */
+.laser-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background-color: #22c55e;
+    box-shadow: 0 0 10px #22c55e, 0 0 20px #22c55e;
+    z-index: 10;
+    animation: scan-laser 2.5s infinite linear;
+    pointer-events: none;
+}
+
+@keyframes scan-laser {
+    0% { top: 0%; opacity: 0; }
+    10% { opacity: 1; }
+    90% { opacity: 1; }
+    100% { top: 100%; opacity: 0; }
+}
+
+.qr-reader-wrapper video {
+    border-radius: 12px;
 }

@@ -7,7 +7,9 @@ from reportlab.platypus import SimpleDocTemplate, Table, TableStyle, Paragraph, 
 from reportlab.lib.styles import getSampleStyleSheet, ParagraphStyle
 from reportlab.lib.units import inch
 from reportlab.lib.enums import TA_CENTER, TA_LEFT
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+
+PH_TZ = timezone(timedelta(hours=8))
 
 
 class AttendancePDFExporter:
@@ -92,7 +94,7 @@ class AttendancePDFExporter:
             
             # Event details
             date_info = Paragraph(
-                f"Date: {event['date']} | Generated: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}",
+                f"Date: {event['date']} | Generated: {datetime.now(PH_TZ).strftime('%Y-%m-%d %H:%M:%S')}",
                 self.styles['Stats']
             )
             story.append(date_info)

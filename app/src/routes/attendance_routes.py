@@ -3,8 +3,10 @@
 from flask import Blueprint, render_template, request, session, jsonify, redirect, url_for
 from database.db_manager import Database
 from routes.auth_routes import login_required
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
 import uuid
+
+PH_TZ = timezone(timedelta(hours=8))
 
 attendance_bp = Blueprint('attendance', __name__, url_prefix='/scan')
 db = Database()
@@ -31,7 +33,7 @@ def scanner():
     user = db.get_user(username)
     
     # Get events for today only
-    today = datetime.now().strftime('%Y-%m-%d')
+    today = datetime.now(PH_TZ).strftime('%Y-%m-%d')
     all_events = db.get_all_events()
     events = [event for event in all_events if event[2] == today]
     
@@ -110,7 +112,7 @@ def mark_attendance():
             }), 200
         
         # Add attendance record
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(PH_TZ).isoformat()
         db._execute(
             """INSERT INTO attendance 
                (event_id, user_id, user_name, timestamp, status, time_slot)
@@ -137,7 +139,8 @@ def mark_attendance():
         }), 200
     
     except Exception as e:
-        return jsonify({'error': str(e)}), 500
+        print(f"Attendance mark error: {e}")
+        return jsonify({'error': 'An error occurred while marking attendance. Please try again.'}), 500
 
 
 @attendance_bp.route('/history/<event_id>')
@@ -222,13 +225,14 @@ def quick_mark():
         
         from config.constants import EMPLOYEES
         user_name = EMPLOYEES.get(user_id, f'Unknown ({user_id})')
+        time_slot = data.get('time_slot', 'morning')
         
-        timestamp = datetime.now().isoformat()
+        timestamp = datetime.now(PH_TZ).isoformat()
         db._execute(
             """INSERT OR IGNORE INTO attendance 
                (event_id, user_id, user_name, timestamp, status, time_slot)
                VALUES (?, ?, ?, ?, ?, ?)""",
-            (event_id, user_id, user_name, timestamp, 'present', 'morning'),
+            (event_id, user_id, user_name, timestamp, 'present', time_slot),
             commit=True
         )
         

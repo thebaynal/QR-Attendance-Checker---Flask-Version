@@ -604,7 +604,8 @@ function stopScanner() {
 function toggleCamera() {
     currentFacingMode = currentFacingMode === 'environment' ? 'user' : 'environment';
     setScannerStatus(`Switching to ${currentFacingMode === 'user' ? 'front' : 'back'} camera...`);
-    startQRScanner();
+    stopScanner();
+    setTimeout(() => startQRScanner(), 400);
 }
 
 function submitQRCode() {
@@ -648,6 +649,7 @@ function markAttendance(qrData) {
     .then(response => {
         if (response.success) {
             setScanIndicator('success', `${response.user_name} marked for ${selectedTimeSlot}`);
+            playAudioBeep();
             
             // Track both by QR code and by composite key
             markedAttendees.add(qrData);
@@ -750,3 +752,27 @@ function loadMarkedAttendees() {
             console.error('Error loading attendees:', error);
         });
 }
+
+function playAudioBeep() {
+    try {
+        const audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+        if (!audioCtx) return;
+        const oscillator = audioCtx.createOscillator();
+        const gainNode = audioCtx.createGain();
+        
+        oscillator.type = 'sine';
+        oscillator.frequency.setValueAtTime(800, audioCtx.currentTime); // 800Hz beep frequency
+        
+        gainNode.gain.setValueAtTime(0.1, audioCtx.currentTime);
+        gainNode.gain.exponentialRampToValueAtTime(0.001, audioCtx.currentTime + 0.1);
+        
+        oscillator.connect(gainNode);
+        gainNode.connect(audioCtx.destination);
+        
+        oscillator.start();
+        oscillator.stop(audioCtx.currentTime + 0.1);
+    } catch(e) {
+        console.log("Audio beep failed", e);
+    }
+}
+

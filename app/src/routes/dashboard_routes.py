@@ -69,6 +69,9 @@ def activity_log():
     username = session.get('username')
     user = db.get_user(username)
     
+    if not user:
+        return redirect(url_for('auth.logout'))
+    
     # Get activity logs
     activities = db._execute(
         """SELECT * FROM activity_log ORDER BY timestamp DESC LIMIT 100""",
