@@ -59,7 +59,7 @@ From the root of this repo:
 az acr login --name mascanregistry
 
 # Build the image
-docker build -t mascanregistry.azurecr.io/mascan:latest .
+docker build -t mascanregistry.azurecr.io/mascan:latest .az acr create --resource-group mascan-rg --name mascanregistry --sku Basic --admin-enabled true
 
 # Push it
 docker push mascanregistry.azurecr.io/mascan:latest

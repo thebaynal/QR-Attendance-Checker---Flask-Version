@@ -1,6 +1,7 @@
 # database/db_manager.py
 """Database manager for handling all SQLite operations."""
 
+import os
 import sqlite3
 import time
 import random

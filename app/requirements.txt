@@ -15,9 +15,4 @@ reportlab==4.0.7
 # QR Code
 qrcode==7.4.2
 Pillow>=10.4.0
-pyzbar==0.1.9
-opencv-python==4.10.0.84
-
-# Utilities
-numpy==2.4.2
 python-dateutil==2.8.2
