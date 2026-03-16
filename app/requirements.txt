@@ -10,7 +10,7 @@ bcrypt==4.1.2
 werkzeug==3.0.1
 
 # PDF Export
-reportlab==4.0.7
+reportlab==4.4.1
 
 # QR Code
 qrcode==7.4.2
