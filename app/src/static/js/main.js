@@ -177,3 +177,21 @@ function copyToClipboard(text) {
         showSuccess('Copied to clipboard!');
     });
 }
+
+// Logout confirmation
+function confirmLogout() {
+    const modal = document.getElementById('logoutModal');
+    if (modal) {
+        modal.classList.add('active');
+        document.addEventListener('keydown', function handler(e) {
+            if (e.key === 'Escape') { closeLogoutModal(); document.removeEventListener('keydown', handler); }
+        });
+    } else {
+        document.getElementById('logoutForm').submit();
+    }
+}
+
+function closeLogoutModal() {
+    const modal = document.getElementById('logoutModal');
+    if (modal) modal.classList.remove('active');
+}

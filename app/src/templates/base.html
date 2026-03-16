@@ -3,6 +3,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/x-icon" href="{{ url_for('static', filename='images/MS_Logo_Blue.ico') }}">
+    <meta name="theme-color" content="#2563EB">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="MaScan">
+    <link rel="apple-touch-icon" href="{{ url_for('static', filename='images/MS_Logo_Blue.ico') }}">
     <title>{% block title %}MaScan - QR Attendance{% endblock %}</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
@@ -41,8 +47,8 @@
             <div class="navbar-right" id="navbarRight">
                 <span class="user-info">{{ session.get('username') }} ({{ user_role }})</span>
                 <button class="theme-toggle" id="themeToggle" title="Toggle dark mode" aria-label="Toggle dark mode"><i class="fa-regular fa-moon" aria-hidden="true"></i></button>
-                <form method="post" action="{{ url_for('auth.logout') }}" style="display: inline;">
-                    <button type="submit" class="btn btn-logout"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Logout</button>
+                <form method="post" action="{{ url_for('auth.logout') }}" style="display: inline;" id="logoutForm">
+                    <button type="button" class="btn btn-logout" onclick="confirmLogout()"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i> Logout</button>
                 </form>
             </div>
         </div>
@@ -55,7 +61,7 @@
 
     {% if session.get('username') %}
     <footer class="app-footer">
-        <span>MaScan</span> — QR Attendance System
+        <span>MaScan</span> — QR Attendance System · © <script>document.write(new Date().getFullYear())</script>
     </footer>
     {% endif %}
 
@@ -108,6 +114,23 @@
             </div>
             <div class="modal-footer">
                 <button class="modal-btn modal-btn-primary" onclick="closeAlertModal()">OK</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Logout Confirmation Modal -->
+    <div id="logoutModal" class="modal-backdrop">
+        <div class="modal-content">
+            <div class="modal-header">
+                <div class="modal-icon" style="color: var(--primary-color);"><i class="fa-solid fa-right-from-bracket" aria-hidden="true"></i></div>
+                <h2 class="modal-title">Sign Out</h2>
+            </div>
+            <div class="modal-body">
+                <p>Are you sure you want to sign out?</p>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-btn modal-btn-cancel" onclick="closeLogoutModal()">Cancel</button>
+                <button class="modal-btn modal-btn-delete" style="background: var(--primary-color);" onclick="document.getElementById('logoutForm').submit()">Sign Out</button>
             </div>
         </div>
     </div>

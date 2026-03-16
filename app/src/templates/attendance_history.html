@@ -10,6 +10,12 @@
     </div>
 
     {% if attendance_by_slot %}
+    <div class="attendance-search">
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="attendance-search" placeholder="Search by name or ID..." class="search-input" oninput="filterAttendance(this.value)">
+        </div>
+    </div>
     {% for slot, records in attendance_by_slot.items() %}
     <div class="time-slot-section">
         <h2>{{ slot|title }} Session</h2>
@@ -133,6 +139,48 @@
     background: var(--table-hover);
 }
 
+.attendance-search {
+    margin-bottom: 20px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+    max-width: 320px;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    pointer-events: none;
+}
+
+.search-input {
+    width: 100%;
+    padding: 10px 14px 10px 40px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 99px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
 .empty-state {
     text-align: center;
     padding: 48px;
@@ -153,4 +201,14 @@
     .table th, .table td { padding: 10px 12px; }
 }
 </style>
+
+<script>
+function filterAttendance(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.table tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+    });
+}
+</script>
 {% endblock %}

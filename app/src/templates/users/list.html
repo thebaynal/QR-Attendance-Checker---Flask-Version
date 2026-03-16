@@ -8,7 +8,13 @@
         <h1>Users</h1>
         <p>Manage system users and permissions</p>
     </div>
-    <a href="{{ url_for('user.create_user') }}" class="btn btn-primary">+ Add User</a>
+    <div class="users-header-actions">
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="user-search" placeholder="Search users..." class="search-input" oninput="filterUsers(this.value)">
+        </div>
+        <a href="{{ url_for('user.create_user') }}" class="btn btn-primary">+ Add User</a>
+    </div>
 </div>
 
 {% if users %}
@@ -148,18 +154,72 @@ html.dark-mode .role-scanner {
     color: var(--text-secondary);
 }
 
+.users-header-actions {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    pointer-events: none;
+}
+
+.search-input {
+    padding: 10px 14px 10px 40px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 99px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s;
+    width: 220px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
 @media (max-width: 768px) {
     .users-header {
         flex-direction: column;
         align-items: flex-start;
         gap: 16px;
     }
+    .users-header-actions { flex-direction: column; width: 100%; }
+    .search-input { width: 100%; }
     .table { font-size: 0.88em; }
     .table th, .table td { padding: 10px 12px; }
 }
 </style>
 
 <script>
+    // Search/filter users
+    function filterUsers(query) {
+        const q = query.toLowerCase().trim();
+        document.querySelectorAll('.table tbody tr').forEach(row => {
+            const text = row.textContent.toLowerCase();
+            row.style.display = text.includes(q) ? '' : 'none';
+        });
+    }
+
 document.addEventListener('DOMContentLoaded', () => {
     // Handle delete user form submission
     document.querySelectorAll('.delete-user-form').forEach(form => {

@@ -22,6 +22,10 @@
         <div class="form-group">
             <label for="password">Password *</label>
             <input type="password" id="password" name="password" required placeholder="Enter password" minlength="6">
+            <div class="password-strength" id="passwordStrength" style="display: none;">
+                <div class="strength-bar"><div class="strength-fill" id="strengthFill"></div></div>
+                <span class="strength-text" id="strengthText"></span>
+            </div>
         </div>
 
         <div class="form-group">
@@ -126,6 +130,34 @@
     flex: 1;
 }
 
+.password-strength {
+    margin-top: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.strength-bar {
+    flex: 1;
+    height: 4px;
+    background: var(--border-color);
+    border-radius: 99px;
+    overflow: hidden;
+}
+
+.strength-fill {
+    height: 100%;
+    width: 0;
+    border-radius: 99px;
+    transition: all 0.3s ease;
+}
+
+.strength-text {
+    font-size: 0.75em;
+    font-weight: 600;
+    white-space: nowrap;
+}
+
 @media (max-width: 600px) {
     .form-container { padding: 24px; }
     .form-actions { flex-direction: column; }
@@ -141,6 +173,40 @@ document.addEventListener('DOMContentLoaded', function() {
                 btn.disabled = true;
                 btn.innerHTML = '<i class="fa-solid fa-spinner fa-spin"></i> Creating...';
             }
+        });
+    }
+
+    // Password strength meter
+    const pwInput = document.getElementById('password');
+    const strengthDiv = document.getElementById('passwordStrength');
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthText = document.getElementById('strengthText');
+
+    if (pwInput && strengthDiv) {
+        pwInput.addEventListener('input', function() {
+            const val = this.value;
+            if (val.length === 0) { strengthDiv.style.display = 'none'; return; }
+            strengthDiv.style.display = 'flex';
+
+            let score = 0;
+            if (val.length >= 6) score++;
+            if (val.length >= 10) score++;
+            if (/[A-Z]/.test(val)) score++;
+            if (/[0-9]/.test(val)) score++;
+            if (/[^A-Za-z0-9]/.test(val)) score++;
+
+            const levels = [
+                { width: '20%', color: '#EF4444', text: 'Very Weak' },
+                { width: '40%', color: '#F59E0B', text: 'Weak' },
+                { width: '60%', color: '#F59E0B', text: 'Fair' },
+                { width: '80%', color: '#10B981', text: 'Strong' },
+                { width: '100%', color: '#10B981', text: 'Very Strong' }
+            ];
+            const level = levels[Math.min(score, 4)];
+            strengthFill.style.width = level.width;
+            strengthFill.style.background = level.color;
+            strengthText.textContent = level.text;
+            strengthText.style.color = level.color;
         });
     }
 });

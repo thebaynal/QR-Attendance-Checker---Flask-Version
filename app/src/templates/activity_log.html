@@ -4,8 +4,16 @@
 
 {% block content %}
 <div class="activity-container">
-    <h1>Activity Log</h1>
-    <p>View all system activities and actions</p>
+    <div class="activity-header">
+        <div>
+            <h1>Activity Log</h1>
+            <p>View all system activities and actions</p>
+        </div>
+        <div class="search-input-wrapper">
+            <i class="fa-solid fa-magnifying-glass search-icon"></i>
+            <input type="text" id="activity-search" placeholder="Search activities..." class="search-input" oninput="filterActivities(this.value)">
+        </div>
+    </div>
 
     {% if activities %}
     <table class="table">
@@ -105,9 +113,69 @@
     padding: 40px;
 }
 
+.activity-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    gap: 16px;
+}
+
+.activity-header h1 { margin-bottom: 4px; }
+.activity-header > p { margin: 0; }
+
+.search-input-wrapper {
+    position: relative;
+    display: flex;
+    align-items: center;
+}
+
+.search-icon {
+    position: absolute;
+    left: 14px;
+    color: var(--text-secondary);
+    font-size: 0.9em;
+    pointer-events: none;
+}
+
+.search-input {
+    padding: 10px 14px 10px 40px;
+    border: 1.5px solid var(--border-color);
+    border-radius: 99px;
+    background: var(--card-bg);
+    color: var(--text-color);
+    font-size: 0.9rem;
+    font-family: inherit;
+    transition: all 0.2s;
+    width: 240px;
+}
+
+.search-input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: var(--focus-ring);
+}
+
+.search-input::placeholder {
+    color: var(--text-secondary);
+    opacity: 0.6;
+}
+
 @media (max-width: 768px) {
+    .activity-header { flex-direction: column; align-items: flex-start; }
+    .search-input { width: 100%; }
     .table { font-size: 0.88em; }
     .table th, .table td { padding: 10px 12px; }
 }
 </style>
+
+<script>
+function filterActivities(query) {
+    const q = query.toLowerCase().trim();
+    document.querySelectorAll('.table tbody tr').forEach(row => {
+        const text = row.textContent.toLowerCase();
+        row.style.display = text.includes(q) ? '' : 'none';
+    });
+}
+</script>
 {% endblock %}

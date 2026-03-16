@@ -388,6 +388,16 @@ document.addEventListener('DOMContentLoaded', function() {
             }
         });
     }
+
+    // Unsaved changes warning
+    let formChanged = false;
+    document.querySelectorAll('.form-input').forEach(el => {
+        el.addEventListener('input', () => { formChanged = true; });
+    });
+    window.addEventListener('beforeunload', (e) => {
+        if (formChanged) { e.preventDefault(); e.returnValue = ''; }
+    });
+    if (form) form.addEventListener('submit', () => { formChanged = false; });
 });
 </script>
 {% endblock %}
