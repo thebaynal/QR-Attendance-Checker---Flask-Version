@@ -20,6 +20,7 @@
     <div class="time-slot-section">
         <h2>{{ slot|title }} Session</h2>
         <p class="slot-count">{{ records|length }} attendees</p>
+        <div class="table-responsive">
         <table class="table">
             <thead>
                 <tr>
@@ -43,6 +44,7 @@
                 {% endfor %}
             </tbody>
         </table>
+        </div>
     </div>
     {% endfor %}
     {% else %}

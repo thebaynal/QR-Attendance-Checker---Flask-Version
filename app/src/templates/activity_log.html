@@ -16,6 +16,7 @@
     </div>
 
     {% if activities %}
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -36,6 +37,7 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
     {% else %}
     <p class="text-muted">No activities yet</p>
     {% endif %}

@@ -18,6 +18,7 @@
 </div>
 
 {% if users %}
+<div class="table-responsive">
 <table class="table">
     <thead>
         <tr>
@@ -47,6 +48,7 @@
         {% endfor %}
     </tbody>
 </table>
+</div>
 {% else %}
 <div class="empty-state">
     <p>No users yet</p>

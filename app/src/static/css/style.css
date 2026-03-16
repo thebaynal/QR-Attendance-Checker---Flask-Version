@@ -76,6 +76,7 @@ html {
 
 html, body {
     height: 100%;
+    overflow-x: hidden;
 }
 
 body {
@@ -1175,8 +1176,7 @@ html.dark-mode .toast {
 
 @media (max-width: 480px) {
     .user-info {
-        font-size: 0.78em;
-        padding: 5px 10px;
+        display: none;
     }
 
     .btn-logout {
@@ -1226,8 +1226,7 @@ html.dark-mode .toast {
     }
 
     .user-info {
-        font-size: 0.7em;
-        padding: 4px 8px;
+        display: none;
     }
 
     .btn-logout {
@@ -1343,4 +1342,28 @@ html.dark-mode thead th {
         opacity: 1;
         transform: translateY(0);
     }
+}
+
+/* ─── Mobile Responsive Fixes ─── */
+@media (max-width: 768px) {
+    .container {
+        padding: 16px 14px;
+    }
+}
+
+@media (max-width: 480px) {
+    .container {
+        padding: 12px 10px;
+    }
+}
+
+/* Responsive table wrappers */
+.table-responsive {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    margin: 0 -2px;
+}
+
+.table-responsive .table {
+    margin: 0;
 }

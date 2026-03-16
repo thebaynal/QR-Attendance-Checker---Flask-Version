@@ -677,7 +677,7 @@
     @media (max-width: 768px) {
         .events-header {
             flex-direction: column;
-            align-items: flex-start;
+            align-items: stretch;
         }
 
         .btn-lg {
@@ -687,13 +687,24 @@
 
         .events-grid {
             grid-template-columns: 1fr;
+            gap: 16px;
         }
 
         .header-content h1 {
-            font-size: 1.8rem;
+            font-size: 1.5rem;
         }
 
-        .events-search { max-width: 100%; }
+        .events-search {
+            max-width: none;
+            min-width: 0;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .events-header {
+            margin-bottom: 24px;
+            gap: 12px;
+        }
     }
 
     /* Script-triggered dropdown menu */

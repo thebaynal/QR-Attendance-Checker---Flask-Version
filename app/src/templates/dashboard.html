@@ -114,6 +114,7 @@
 <div class="recent-activity">
     <h2>Recent Activity</h2>
     {% if recent_attendance %}
+    <div class="table-responsive">
     <table class="table">
         <thead>
             <tr>
@@ -139,6 +140,7 @@
             {% endfor %}
         </tbody>
     </table>
+    </div>
     {% else %}
     <p class="text-muted">No recent activity</p>
     {% endif %}
@@ -457,7 +459,7 @@
 
 @media (max-width: 768px) {
     .stats-grid {
-        grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+        grid-template-columns: repeat(2, 1fr);
     }
 
     .dashboard-header h1 {
@@ -465,11 +467,43 @@
     }
 
     .action-buttons {
-        flex-direction: column;
+        grid-template-columns: 1fr 1fr;
     }
 
     .action-buttons .btn {
         min-width: auto;
+    }
+
+    .recent-activity {
+        padding: 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+    .action-buttons {
+        grid-template-columns: 1fr;
+    }
+    .hero-content h1 {
+        font-size: 1.15em;
+    }
+    .pulse-card {
+        padding: 14px;
+    }
+    .stat-card {
+        padding: 14px;
+    }
+    .stat-icon {
+        width: 42px;
+        height: 42px;
+        font-size: 1.3em;
+        margin-right: 12px;
+        margin-left: 4px;
+    }
+    .stat-value {
+        font-size: 1.6em;
     }
 }
 </style>
