@@ -223,7 +223,7 @@
 
     .header-content h1 {
         margin: 0 0 8px 0;
-        font-size: 2.2rem;
+        font-size: 2rem;
         font-weight: 700;
         color: var(--text-color);
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
@@ -234,7 +234,7 @@
 
     .header-content p {
         margin: 0;
-        color: var(--navbar-text);
+        color: var(--text-secondary);
         font-size: 1rem;
     }
 
@@ -250,19 +250,18 @@
 
     .event-card {
         background: var(--card-bg);
-        border: 1px solid rgba(42, 115, 255, 0.16);
-        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        border-radius: var(--border-radius-lg);
         overflow: hidden;
         display: flex;
         flex-direction: column;
-        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        box-shadow: 0 6px 18px rgba(18, 45, 99, 0.08);
+        transition: var(--transition);
+        box-shadow: var(--shadow);
         position: relative;
     }
 
     html.dark-mode .event-card {
-        border-color: rgba(98, 145, 255, 0.25);
-        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.32);
+        border-color: var(--border-color);
     }
 
     .event-card::before {
@@ -276,13 +275,13 @@
     }
 
     .event-card:hover {
-        transform: translateY(-8px);
-        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.15);
-        border-color: rgba(42, 115, 255, 0.45);
+        transform: translateY(-4px);
+        box-shadow: var(--shadow-lg);
+        border-color: var(--primary-color);
     }
 
     html.dark-mode .event-card:hover {
-        box-shadow: 0 12px 24px rgba(42, 115, 255, 0.25);
+        box-shadow: var(--shadow-lg);
     }
 
     .event-card-header {
@@ -290,16 +289,16 @@
         justify-content: space-between;
         align-items: flex-start;
         padding: 16px 20px;
-        border-bottom: 1px solid rgba(42, 115, 255, 0.12);
+        border-bottom: 1px solid var(--border-color);
     }
 
     .event-date-badge {
         display: inline-flex;
         align-items: center;
-        padding: 8px 16px;
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.1), rgba(102, 126, 234, 0.1));
-        border-radius: 8px;
-        border: 1px solid rgba(42, 115, 255, 0.2);
+        padding: 6px 14px;
+        background: var(--primary-light);
+        border-radius: 99px;
+        border: 1px solid rgba(79, 110, 247, 0.15);
     }
 
     .date-text {
@@ -384,8 +383,8 @@
 
     .event-description {
         margin: 0;
-        font-size: 0.95rem;
-        color: var(--navbar-text);
+        font-size: 0.92rem;
+        color: var(--text-secondary);
         line-height: 1.5;
     }
 
@@ -395,10 +394,10 @@
     }
 
     .event-card-footer {
-        padding: 16px 20px;
+        padding: 14px 20px;
         display: flex;
         gap: 8px;
-        border-top: 1px solid rgba(42, 115, 255, 0.12);
+        border-top: 1px solid var(--border-color);
     }
 
     .event-action {
@@ -423,7 +422,7 @@
 
     .event-action.primary:hover {
         transform: translateX(2px);
-        box-shadow: 0 4px 12px rgba(42, 115, 255, 0.3);
+        box-shadow: 0 4px 12px rgba(79, 110, 247, 0.3);
     }
 
     .event-action.secondary {
@@ -433,7 +432,7 @@
     }
 
     .event-action.secondary:hover {
-        background: rgba(42, 115, 255, 0.1);
+        background: var(--primary-light);
         border-color: var(--primary-color);
     }
 
@@ -466,7 +465,7 @@
 
     .empty-state p {
         margin: 0 0 30px 0;
-        color: var(--navbar-text);
+        color: var(--text-secondary);
         font-size: 1rem;
     }
 
@@ -481,27 +480,27 @@
     }
 
     .section-header.today-section {
-        border: 1px solid rgba(42, 115, 255, 0.22);
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.05), rgba(102, 126, 234, 0.05));
-        padding: 24px;
-        border-radius: 12px;
-        margin-bottom: 28px;
+        border: 1px solid rgba(239, 68, 68, 0.15);
+        background: rgba(239, 68, 68, 0.04);
+        padding: 20px 24px;
+        border-radius: var(--border-radius);
+        margin-bottom: 24px;
     }
 
     html.dark-mode .section-header.today-section {
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.08), rgba(102, 126, 234, 0.08));
+        background: rgba(239, 68, 68, 0.06);
     }
 
     .section-header.other-section {
-        border: 1px solid rgba(42, 115, 255, 0.16);
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.02), rgba(42, 115, 255, 0.01));
-        border-radius: 12px;
+        border: 1px solid var(--border-color);
+        background: var(--input-bg);
+        border-radius: var(--border-radius);
         padding: 20px 24px;
     }
 
     html.dark-mode .section-header.other-section {
-        border-color: rgba(98, 145, 255, 0.22);
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.06), rgba(42, 115, 255, 0.03));
+        border-color: var(--border-color);
+        background: var(--input-bg);
     }
 
     .section-title-wrapper {
@@ -533,39 +532,39 @@
     }
 
     .section-badge.today-badge {
-        background: rgba(255, 67, 67, 0.15);
-        color: #ff4343;
+        background: rgba(239, 68, 68, 0.12);
+        color: #ef4444;
     }
 
     .section-badge.other-badge {
-        background: rgba(42, 115, 255, 0.15);
+        background: var(--primary-light);
         color: var(--primary-color);
     }
 
     .section-subtitle {
         margin: 0;
-        color: var(--navbar-text);
-        font-size: 0.95rem;
+        color: var(--text-secondary);
+        font-size: 0.92rem;
         font-weight: 500;
     }
 
     /* Event Card Styling by Type */
     .event-card.today-event {
-        border-left: 2px solid #ff4343;
+        border-left: 2px solid #ef4444;
     }
 
     .event-card.today-event::before {
-        background: linear-gradient(90deg, #ff4343, rgba(255, 67, 67, 0.3));
+        background: linear-gradient(90deg, #ef4444, rgba(239, 68, 68, 0.3));
         height: 3px;
     }
 
     .event-card.today-event:hover {
-        box-shadow: 0 12px 24px rgba(255, 67, 67, 0.15);
-        border-color: rgba(255, 67, 67, 0.6);
+        box-shadow: 0 12px 24px rgba(239, 68, 68, 0.12);
+        border-color: rgba(239, 68, 68, 0.5);
     }
 
     html.dark-mode .event-card.today-event:hover {
-        box-shadow: 0 12px 24px rgba(255, 67, 67, 0.25);
+        box-shadow: 0 12px 24px rgba(239, 68, 68, 0.2);
     }
 
     .event-card.past-event,
@@ -578,7 +577,7 @@
     }
 
     .event-card.future-event {
-        border-left: 2px solid rgba(42, 115, 255, 0.9);
+        border-left: 2px solid var(--primary-color);
     }
 
     /* Section Divider */

@@ -61,6 +61,12 @@
         {% block content %}{% endblock %}
     </div>
 
+    {% if session.get('username') %}
+    <footer class="app-footer">
+        <span>MaScan</span> — QR Attendance System
+    </footer>
+    {% endif %}
+
     <script src="{{ url_for('static', filename='js/main.js') }}"></script>
     <script src="{{ url_for('static', filename='js/modal.js') }}"></script>
     {% block extra_js %}{% endblock %}

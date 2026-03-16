@@ -106,17 +106,17 @@
 
 .mobile-head p {
     margin: 8px 0 0;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-size: 0.95em;
     max-width: 34ch;
 }
 
 .card-like {
     background: var(--card-bg);
-    border: 1px solid rgba(42, 115, 255, 0.12);
-    border-radius: 18px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius-lg);
     padding: 16px;
-    box-shadow: 0 12px 28px rgba(14, 29, 58, 0.06);
+    box-shadow: var(--shadow);
 }
 
 .mobile-controls {
@@ -124,8 +124,8 @@
     grid-template-columns: 1fr 1fr;
     gap: 12px;
     background:
-        radial-gradient(circle at top right, rgba(42, 115, 255, 0.08), transparent 38%),
-        linear-gradient(180deg, rgba(42, 115, 255, 0.03), transparent 55%);
+        radial-gradient(circle at top right, rgba(79, 110, 247, 0.08), transparent 38%),
+        linear-gradient(180deg, rgba(79, 110, 247, 0.03), transparent 55%);
 }
 
 .field {
@@ -141,16 +141,15 @@
 
 .field select,
 .manual-row input {
-    border: 1px solid rgba(42, 115, 255, 0.12);
-    border-radius: 14px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
     background: var(--input-bg);
     color: var(--text-color);
     padding: 14px 12px;
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.25);
 }
 
 .scanner-shell {
-    background: linear-gradient(180deg, rgba(42, 115, 255, 0.03), transparent 55%);
+    background: linear-gradient(180deg, rgba(79, 110, 247, 0.03), transparent 55%);
 }
 
 .scanner-shell-head {
@@ -173,7 +172,7 @@
     margin: 6px 0 0;
     font-size: 0.86em;
     line-height: 1.45;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     max-width: 30ch;
 }
 
@@ -198,11 +197,11 @@
 .scanner-status {
     grid-column: 1 / -1;
     padding: 12px 14px;
-    border-radius: 14px;
-    background: linear-gradient(135deg, rgba(42, 115, 255, 0.12), rgba(42, 115, 255, 0.05));
+    border-radius: var(--border-radius);
+    background: var(--primary-light);
     color: var(--primary-color);
     font-size: 0.86em;
-    border: 1px solid rgba(42, 115, 255, 0.16);
+    border: 1px solid rgba(79, 110, 247, 0.15);
     line-height: 1.45;
 }
 
@@ -230,7 +229,7 @@
     list-style: none;
     cursor: pointer;
     font-weight: 600;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     display: inline-flex;
     gap: 10px;
     align-items: center;

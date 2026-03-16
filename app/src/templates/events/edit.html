@@ -136,7 +136,7 @@
 
 .form-header p {
     margin: 0;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-size: 0.95rem;
 }
 
@@ -198,7 +198,7 @@
 
 .optional {
     font-weight: 400;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-size: 0.85rem;
 }
 
@@ -217,7 +217,7 @@
 .form-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(42, 115, 255, 0.1);
+    box-shadow: var(--focus-ring);
     background: var(--input-bg);
 }
 
@@ -239,14 +239,14 @@ textarea.form-input {
     bottom: 8px;
     right: 12px;
     font-size: 0.8rem;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     pointer-events: none;
 }
 
 .field-help {
     display: block;
     margin-top: 6px;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-size: 0.8rem;
     font-weight: 400;
 }
@@ -283,7 +283,7 @@ textarea.form-input {
 
 .btn-primary:hover {
     transform: translateY(-2px);
-    box-shadow: 0 8px 20px rgba(42, 115, 255, 0.3);
+    box-shadow: 0 8px 20px rgba(79, 110, 247, 0.3);
 }
 
 .btn-primary:active {
@@ -306,7 +306,7 @@ textarea.form-input {
     margin-top: 32px;
     padding-top: 24px;
     border-top: 1px solid var(--border-color);
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-size: 0.85rem;
 }
 
@@ -333,7 +333,9 @@ textarea.form-input {
         flex-direction: column;
     }
 }
+</style>
 
+<script>
 /* JavaScript Functions */
 function validateEventName(input) {
     if (input.value.trim().length === 0) {
@@ -373,6 +375,5 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 });
-</style>
-</style>
+</script>
 {% endblock %}

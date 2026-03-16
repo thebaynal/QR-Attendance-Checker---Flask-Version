@@ -228,7 +228,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 }
 
 .qr-header p {
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-size: 1.1em;
 }
 
@@ -257,8 +257,8 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 /* Upload and Single Cards */
 .qr-upload-card, .qr-single-card {
     margin-bottom: 0;
-    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(42, 115, 255, 0.02) 100%);
-    border: 1px solid rgba(42, 115, 255, 0.1);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(79, 110, 247, 0.02) 100%);
+    border: 1px solid rgba(79, 110, 247, 0.1);
     border-radius: 8px;
     overflow: hidden;
 }
@@ -300,7 +300,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 }
 
 .qr-upload-card summary:hover, .qr-single-card summary:hover {
-    background: rgba(42, 115, 255, 0.08);
+    background: var(--primary-light);
 }
 
 .qr-upload-card summary h2, .qr-single-card summary h2 {
@@ -332,8 +332,8 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 }
 
 .qr-upload-card[open] summary, .qr-single-card[open] summary {
-    background: rgba(42, 115, 255, 0.05);
-    border-bottom: 1px solid rgba(42, 115, 255, 0.1);
+    background: rgba(79, 110, 247, 0.05);
+    border-bottom: 1px solid rgba(79, 110, 247, 0.1);
 }
 
 .qr-upload-card > *:not(summary), .qr-single-card > *:not(summary) {
@@ -362,7 +362,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 }
 
 .info-text {
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     margin-bottom: 15px;
     font-size: 0.95em;
     line-height: 1.5;
@@ -407,7 +407,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 
 .csv-template-info summary:hover {
     color: #1e52cc;
-    background: rgba(42, 115, 255, 0.05);
+    background: rgba(79, 110, 247, 0.05);
 }
 
 .csv-template-info details[open] summary {
@@ -535,7 +535,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 .form-control:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(42, 115, 255, 0.15);
+    box-shadow: var(--focus-ring);
 }
 
 .optional-fields-details {
@@ -548,7 +548,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 
 .optional-fields-details summary {
     font-weight: 600;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     transition: all 0.3s ease;
     outline: none;
     padding: 12px 15px;
@@ -558,7 +558,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
 
 .optional-fields-details summary:hover {
     color: var(--primary-color);
-    background: rgba(42, 115, 255, 0.05);
+    background: rgba(79, 110, 247, 0.05);
 }
 
 html.dark-mode .optional-fields-details summary {
@@ -566,7 +566,7 @@ html.dark-mode .optional-fields-details summary {
 }
 
 html.dark-mode .optional-fields-details summary:hover {
-    background: rgba(42, 115, 255, 0.15);
+    background: var(--primary-light);
 }
 
 .optional-fields-grid {
@@ -635,19 +635,19 @@ html.dark-mode .optional-fields-details summary:hover {
     justify-content: center;
     padding: 40px 25px;
     border: 2.5px dashed var(--primary-color);
-    border-radius: 12px;
+    border-radius: var(--border-radius-lg);
     text-align: center;
     cursor: pointer;
     transition: all 0.3s ease;
-    background: linear-gradient(135deg, rgba(42, 115, 255, 0.05), rgba(42, 115, 255, 0.01));
+    background: linear-gradient(135deg, rgba(79, 110, 247, 0.05), rgba(79, 110, 247, 0.01));
     min-height: 150px;
 }
 
 .file-label:hover {
-    background: linear-gradient(135deg, rgba(42, 115, 255, 0.15), rgba(42, 115, 255, 0.08));
+    background: linear-gradient(135deg, rgba(79, 110, 247, 0.15), rgba(79, 110, 247, 0.08));
     border-color: #1e52cc;
     transform: translateY(-2px);
-    box-shadow: 0 4px 12px rgba(42, 115, 255, 0.15);
+    box-shadow: 0 4px 12px rgba(79, 110, 247, 0.15);
 }
 
 .file-icon {
@@ -709,7 +709,7 @@ html.dark-mode .optional-fields-details summary:hover {
 
 .file-size {
     font-size: 0.82em;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     margin-top: 3px;
 }
 
@@ -887,14 +887,14 @@ html.dark-mode .optional-fields-details summary:hover {
 .filter-input:focus {
     outline: none;
     border-color: var(--primary-color);
-    box-shadow: 0 0 0 3px rgba(42, 115, 255, 0.1);
+    box-shadow: var(--focus-ring);
 }
 
 .filter-controls label {
     display: block;
     font-size: 0.85em;
     font-weight: 600;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     margin-bottom: 6px;
 }
 
@@ -908,8 +908,8 @@ html.dark-mode .optional-fields-details summary:hover {
     align-items: center;
     justify-content: space-between;
     padding: 12px 16px;
-    background: rgba(42, 115, 255, 0.08);
-    border: 1px solid rgba(42, 115, 255, 0.2);
+    background: var(--primary-light);
+    border: 1px solid rgba(79, 110, 247, 0.2);
     border-radius: 6px;
     margin-bottom: 15px;
     animation: slideInUp 0.3s ease-out;
@@ -930,7 +930,7 @@ html.dark-mode .optional-fields-details summary:hover {
 
 .selection-info {
     font-size: 0.9em;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
@@ -946,7 +946,7 @@ html.dark-mode .optional-fields-details summary:hover {
 }
 
 .stat-label {
-    color: var(--navbar-text);
+    color: var(--text-secondary);
     font-weight: 500;
 }
 
@@ -972,7 +972,7 @@ html.dark-mode .optional-fields-details summary:hover {
     align-items: center;
     padding: 60px 20px;
     text-align: center;
-    color: var(--navbar-text);
+    color: var(--text-secondary);
 }
 
 .empty-state p {
@@ -999,8 +999,8 @@ html.dark-mode .optional-fields-details summary:hover {
 
 .qr-code-card.selected {
     border-color: var(--primary-color);
-    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(42, 115, 255, 0.08) 100%);
-    box-shadow: 0 0 0 2px rgba(42, 115, 255, 0.1);
+    background: linear-gradient(135deg, var(--card-bg) 0%, rgba(79, 110, 247, 0.08) 100%);
+    box-shadow: 0 0 0 2px rgba(79, 110, 247, 0.1);
 }
 
 .qr-code-checkbox {
@@ -1399,18 +1399,18 @@ clearFileBtn.addEventListener('click', (e) => {
 // Drag and drop
 fileLabel.addEventListener('dragover', (e) => {
     e.preventDefault();
-    fileLabel.style.background = 'rgba(42, 115, 255, 0.15)';
+    fileLabel.style.background = 'rgba(79, 110, 247, 0.15)';
 });
 
 fileLabel.addEventListener('dragleave', () => {
     if (csvFileInput.files.length === 0) {
-        fileLabel.style.background = 'rgba(42, 115, 255, 0.02)';
+        fileLabel.style.background = 'rgba(79, 110, 247, 0.02)';
     }
 });
 
 fileLabel.addEventListener('drop', (e) => {
     e.preventDefault();
-    fileLabel.style.background = 'rgba(42, 115, 255, 0.02)';
+    fileLabel.style.background = 'rgba(79, 110, 247, 0.02)';
     
     if (e.dataTransfer.files.length > 0) {
         const file = e.dataTransfer.files[0];
@@ -1619,9 +1619,9 @@ function displayQRCodes(qrCodes) {
             <div class="qr-code-info">
                 <div class="qr-code-id">${qr.school_id}</div>
                 <div class="qr-code-name">${qr.name}</div>
-                ${qr.course ? `<div class="qr-code-course" style="font-size: 0.85em; color: var(--navbar-text); margin-top: 4px;">Course: ${qr.course}</div>` : ''}
-                ${qr.year ? `<div class="qr-code-year" style="font-size: 0.85em; color: var(--navbar-text);">Year: ${qr.year}</div>` : ''}
-                ${qr.section ? `<div class="qr-code-section" style="font-size: 0.85em; color: var(--navbar-text);">Section: ${qr.section}</div>` : ''}
+                ${qr.course ? `<div class="qr-code-course" style="font-size: 0.85em; color: var(--text-secondary); margin-top: 4px;">Course: ${qr.course}</div>` : ''}
+                ${qr.year ? `<div class="qr-code-year" style="font-size: 0.85em; color: var(--text-secondary);">Year: ${qr.year}</div>` : ''}
+                ${qr.section ? `<div class="qr-code-section" style="font-size: 0.85em; color: var(--text-secondary);">Section: ${qr.section}</div>` : ''}
             </div>
             <div class="qr-code-actions">
                 <button class="btn btn-small btn-secondary" onclick="downloadSingleQR('${qr.school_id}')">

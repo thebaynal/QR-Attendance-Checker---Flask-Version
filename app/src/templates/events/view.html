@@ -158,9 +158,9 @@
     .event-badge {
         display: inline-block;
         padding: 6px 14px;
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.1), rgba(102, 126, 234, 0.1));
-        border: 1px solid rgba(42, 115, 255, 0.2);
-        border-radius: 8px;
+        background: var(--primary-light);
+        border: 1px solid rgba(79, 110, 247, 0.15);
+        border-radius: 99px;
         color: var(--primary-color);
         font-size: 0.85rem;
         font-weight: 600;
@@ -169,7 +169,7 @@
 
     .event-title {
         margin: 0 0 8px 0;
-        font-size: 2.2rem;
+        font-size: 2rem;
         font-weight: 700;
         background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
         -webkit-background-clip: text;
@@ -179,7 +179,7 @@
 
     .event-date-display {
         margin: 0;
-        color: var(--navbar-text);
+        color: var(--text-secondary);
         font-size: 1rem;
     }
 
@@ -210,7 +210,7 @@
 
     .action-btn.primary:hover {
         transform: translateY(-2px);
-        box-shadow: 0 8px 20px rgba(42, 115, 255, 0.3);
+        box-shadow: 0 8px 20px rgba(79, 110, 247, 0.3);
     }
 
     .action-btn.secondary {
@@ -249,7 +249,7 @@
 
     .description-content p {
         margin: 0;
-        color: var(--navbar-text);
+        color: var(--text-secondary);
         line-height: 1.6;
         white-space: pre-wrap;
     }
@@ -296,7 +296,7 @@
         gap: 16px;
         padding: 20px 24px;
         border-bottom: 1px solid var(--border-color);
-        background: linear-gradient(135deg, rgba(42, 115, 255, 0.05), rgba(102, 126, 234, 0.05));
+        background: var(--input-bg);
     }
 
     .stat-card {
@@ -316,7 +316,7 @@
 
     .stat-label {
         font-size: 0.9rem;
-        color: var(--navbar-text);
+        color: var(--text-secondary);
     }
 
     /* Table */
@@ -340,7 +340,9 @@
         text-align: left;
         font-weight: 600;
         color: var(--text-color);
-        font-size: 0.9rem;
+        font-size: 0.8rem;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
     }
 
     .attendance-table tr {
@@ -366,7 +368,7 @@
     .id-badge {
         display: inline-block;
         padding: 4px 12px;
-        background: rgba(42, 115, 255, 0.1);
+        background: var(--primary-light);
         border-radius: 6px;
         color: var(--primary-color);
         font-weight: 600;
@@ -376,7 +378,7 @@
     .slot-badge {
         display: inline-block;
         padding: 4px 12px;
-        background: rgba(102, 126, 234, 0.1);
+        background: rgba(124, 92, 252, 0.1);
         border-radius: 6px;
         color: var(--secondary-color);
         font-size: 0.85rem;
@@ -420,7 +422,7 @@
 
     .empty-attendance p {
         margin: 0 0 24px 0;
-        color: var(--navbar-text);
+        color: var(--text-secondary);
         font-size: 1rem;
     }
 
