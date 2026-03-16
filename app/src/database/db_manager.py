@@ -12,8 +12,14 @@ from typing import Optional, Dict
 class Database:
     """Handles all SQLite interactions for events and attendance."""
     
-    def __init__(self, db_name: str = "mascan_attendance.db"):
+    def __init__(self, db_name: str = None):
+        # Allow DB path to be set via environment variable for cloud deployments
+        if db_name is None:
+            db_name = os.getenv('DB_PATH', 'mascan_attendance.db')
         self.db_name = db_name
+        # Ensure the directory exists
+        db_dir = os.path.dirname(os.path.abspath(db_name))
+        os.makedirs(db_dir, exist_ok=True)
         self.create_tables()
         self.create_enhanced_tables()
         self._ensure_admin_role()

@@ -19,6 +19,7 @@ def create_app():
     # Configuration
     app.config['SECRET_KEY'] = os.getenv('SECRET_KEY', 'mascan-attendance-secret-key-2024')
     app.config['SESSION_TYPE'] = 'filesystem'
+    app.config['SESSION_FILE_DIR'] = os.getenv('SESSION_FILE_DIR', os.path.join(os.path.dirname(__file__), '..', '..', 'flask_session'))
     app.config['PERMANENT_SESSION_LIFETIME'] = 86400  # 24 hours
     app.config['MAX_CONTENT_LENGTH'] = 16 * 1024 * 1024  # 16MB max file upload
     

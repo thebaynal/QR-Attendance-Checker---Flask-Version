@@ -21,7 +21,7 @@ if __name__ == '__main__':
     debug_mode = os.getenv('DEBUG', 'True').lower() == 'true'
     host = os.getenv('HOST', '0.0.0.0')
     port = int(os.getenv('PORT', 5000))
-    
+
     print(f"""
     ========================================================
     MaScan - QR Attendance System
