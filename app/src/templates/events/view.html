@@ -6,12 +6,12 @@
 <div class="event-detail-wrapper">
     <div class="event-detail-header">
         <div class="header-back">
-            <a href="{{ url_for('event.list_events') }}" class="back-link">← Back to Events</a>
+            <a href="{{ url_for('event.list_events') }}" class="back-link"><i class="fa-solid fa-arrow-left"></i> Back to Events</a>
         </div>
 
         <div class="event-header-content">
             <div class="event-header-main">
-                <div class="event-badge">📅 Event Details</div>
+                <div class="event-badge"><i class="fa-solid fa-calendar-days"></i> Event Details</div>
                 <h1 class="event-title">{{ event[1] }}</h1>
                 <p class="event-date-display">{{ event[2] }}</p>
             </div>
@@ -19,10 +19,10 @@
             <div class="event-header-actions">
                 {% if user_role == 'admin' %}
                 <a href="{{ url_for('event.edit_event', event_id=event[0]) }}" class="action-btn primary">
-                    <span>✏️</span> Edit Event
+                    <span><i class="fa-solid fa-pen-to-square"></i></span> Edit Event
                 </a>
                 <a href="#" onclick="exportEventPDF('{{ event[0] }}'); return false;" class="action-btn secondary">
-                    <span>📥</span> Export PDF
+                    <span><i class="fa-solid fa-file-export"></i></span> Export PDF
                 </a>
                 {% endif %}
             </div>
@@ -31,7 +31,7 @@
 
     {% if event[3] %}
     <div class="event-description-section">
-        <div class="section-icon">📝</div>
+        <div class="section-icon"><i class="fa-solid fa-file-lines"></i></div>
         <div class="description-content">
             <h3>Event Description</h3>
             <p>{{ event[3] }}</p>
@@ -41,7 +41,7 @@
 
     <div class="attendance-section">
         <div class="section-header">
-            <h2>📊 Attendance Summary</h2>
+            <h2><i class="fa-solid fa-chart-column"></i> Attendance Summary</h2>
             <a href="{{ url_for('attendance.attendance_history', event_id=event[0]) }}" class="view-all-link">
                 View All Attendance →
             </a>
@@ -86,11 +86,11 @@
                         </td>
                         <td class="col-status">
                             {% if record[4] == 'Present' %}
-                            <span class="status-badge status-present">✓ Present</span>
+                            <span class="status-badge status-present"><i class="fa-solid fa-circle-check"></i> Present</span>
                             {% elif record[4] == 'Late' %}
-                            <span class="status-badge status-late">⚠ Late</span>
+                            <span class="status-badge status-late"><i class="fa-solid fa-triangle-exclamation"></i> Late</span>
                             {% else %}
-                            <span class="status-badge status-absent">✗ {{ record[4] }}</span>
+                            <span class="status-badge status-absent"><i class="fa-solid fa-circle-xmark"></i> {{ record[4] }}</span>
                             {% endif %}
                         </td>
                         <td class="col-time">
@@ -106,7 +106,7 @@
         </div>
         {% else %}
         <div class="empty-attendance">
-            <div class="empty-icon">📋</div>
+            <div class="empty-icon"><i class="fa-solid fa-clipboard-list"></i></div>
             <p>No attendance records yet for this event</p>
             <a href="{{ url_for('event.list_events') }}" class="btn btn-secondary">Back to Events</a>
         </div>

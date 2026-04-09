@@ -166,7 +166,7 @@ function submitQRCode() {
     if (markedAttendees.has(qrData) || markedAttendees.has(compositeKey)) {
         const indicator = document.getElementById('last-scanned-indicator');
         indicator.className = 'last-scanned-indicator warning';
-        indicator.textContent = `⚠️ Already marked for ${selectedTimeSlot}`;
+        indicator.textContent = `Already marked for ${selectedTimeSlot}`;
         indicator.style.display = 'block';
 
         // Clear input
@@ -199,7 +199,7 @@ function markAttendance(qrData) {
 
         if (response.success) {
             indicator.className = 'last-scanned-indicator';
-            indicator.textContent = `✓ ${response.user_name} marked for ${selectedTimeSlot}`;
+            indicator.textContent = `${response.user_name} marked for ${selectedTimeSlot}`;
             indicator.style.display = 'block';
             
             // Track both by QR code and by composite key
@@ -239,7 +239,7 @@ function markAttendance(qrData) {
             }, 4000);
         } else {
             indicator.className = 'last-scanned-indicator warning';
-            indicator.textContent = `⚠️ ${response.message}`;
+            indicator.textContent = response.message;
             indicator.style.display = 'block';
             
             // Keep visible for 3 seconds
@@ -251,7 +251,7 @@ function markAttendance(qrData) {
     .catch(error => {
         const indicator = document.getElementById('last-scanned-indicator');
         indicator.className = 'last-scanned-indicator warning';
-        indicator.textContent = `⚠️ Error: ${error.message}`;
+        indicator.textContent = `Error: ${error.message}`;
         indicator.style.display = 'block';
         
         setTimeout(() => {
@@ -271,7 +271,7 @@ function updateAttendanceCount() {
 function showError(message) {
     const indicator = document.getElementById('last-scanned-indicator');
     indicator.className = 'last-scanned-indicator warning';
-    indicator.textContent = `⚠️ ${message}`;
+    indicator.textContent = message;
     indicator.style.display = 'block';
     
     setTimeout(() => {

@@ -47,13 +47,13 @@ function confirmDelete() {
 /**
  * Alert Modal Functions
  */
-function showAlertModal(title, message, icon = '⚠️') {
+function showAlertModal(title, message, iconClass = 'fa-solid fa-circle-exclamation') {
     const modal = document.getElementById('alertModal');
     if (!modal) return;
 
     document.getElementById('alertModalTitle').textContent = title;
     document.getElementById('alertModalMessage').textContent = message;
-    document.getElementById('alertModalIcon').textContent = icon;
+    document.getElementById('alertModalIcon').innerHTML = `<i class="${iconClass}"></i>`;
     
     modal.classList.add('active');
     document.addEventListener('keydown', handleModalKeydown);
@@ -83,7 +83,7 @@ async function exportEventPDF(eventId) {
                 // Fallback if not JSON
             }
             
-            showAlertModal(errorMsg, detailMsg, '❌');
+            showAlertModal(errorMsg, detailMsg, 'fa-solid fa-circle-xmark');
             return;
         }
         
@@ -98,7 +98,7 @@ async function exportEventPDF(eventId) {
         a.remove();
         
     } catch (error) {
-        showAlertModal('Network Error', 'Failed to connect to the server. Please try again.', '📡');
+        showAlertModal('Network Error', 'Failed to connect to the server. Please try again.', 'fa-solid fa-tower-broadcast');
     }
 }
 

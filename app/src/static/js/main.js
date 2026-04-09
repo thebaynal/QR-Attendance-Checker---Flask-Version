@@ -25,10 +25,12 @@ function toggleTheme() {
 
 function updateThemeIcon() {
     const themeToggle = document.getElementById('themeToggle');
-    if (!themeToggle) return;
+    const themeIcon = document.getElementById('themeToggleIcon');
+    if (!themeToggle || !themeIcon) return;
     
     const isDarkMode = document.documentElement.classList.contains('dark-mode');
-    themeToggle.textContent = isDarkMode ? '☀️' : '🌙';
+    themeIcon.className = isDarkMode ? 'fa-solid fa-sun' : 'fa-solid fa-moon';
+    themeToggle.title = isDarkMode ? 'Switch to light mode' : 'Switch to dark mode';
     themeToggle.style.animation = 'spin 0.4s ease-out';
     setTimeout(() => {
         themeToggle.style.animation = '';

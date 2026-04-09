@@ -10,7 +10,7 @@
 
 <div class="stats-grid">
     <div class="stat-card">
-        <div class="stat-icon">📅</div>
+        <div class="stat-icon"><i class="fa-solid fa-calendar-days"></i></div>
         <div class="stat-content">
             <h3>Total Events</h3>
             <p class="stat-value">{{ total_events }}</p>
@@ -18,7 +18,7 @@
     </div>
 
     <div class="stat-card">
-        <div class="stat-icon">✅</div>
+        <div class="stat-icon"><i class="fa-solid fa-circle-check"></i></div>
         <div class="stat-content">
             <h3>Total Attendance</h3>
             <p class="stat-value">{{ total_attendance }}</p>
@@ -26,7 +26,7 @@
     </div>
 
     <div class="stat-card">
-        <div class="stat-icon">👥</div>
+        <div class="stat-icon"><i class="fa-solid fa-users"></i></div>
         <div class="stat-content">
             <h3>Total Users</h3>
             <p class="stat-value">{{ total_users }}</p>
@@ -34,7 +34,7 @@
     </div>
 
     <div class="stat-card">
-        <div class="stat-icon">📊</div>
+        <div class="stat-icon"><i class="fa-solid fa-chart-column"></i></div>
         <div class="stat-content">
             <h3>Activity</h3>
             <p class="stat-value">Active</p>
@@ -46,20 +46,20 @@
     <h2>Quick Actions</h2>
     <div class="action-buttons">
         <a href="{{ url_for('attendance.scanner') }}" class="btn btn-primary">
-            📱 Start Scanning
+            <span class="icon"><i class="fa-solid fa-qrcode"></i></span> Start Scanning
         </a>
         <a href="{{ url_for('event.list_events') }}" class="btn btn-secondary">
-            📅 View Events
+            <span class="icon"><i class="fa-solid fa-calendar-days"></i></span> View Events
         </a>
         {% if user_role == 'admin' %}
         <a href="{{ url_for('event.create_event') }}" class="btn btn-secondary">
-            ➕ Create Event
+            <span class="icon"><i class="fa-solid fa-plus"></i></span> Create Event
         </a>
         <a href="{{ url_for('qr_mgmt.manage_qr') }}" class="btn btn-secondary">
-            📱 QR Management
+            <span class="icon"><i class="fa-solid fa-qrcode"></i></span> QR Management
         </a>
         <a href="{{ url_for('user.list_users') }}" class="btn btn-secondary">
-            👥 Manage Users
+            <span class="icon"><i class="fa-solid fa-users"></i></span> Manage Users
         </a>
         {% endif %}
     </div>
@@ -156,6 +156,10 @@ html.dark-mode .stat-card:hover {
     font-size: 2.5em;
     margin-right: 20px;
     animation: bounce 2s ease-in-out infinite;
+}
+
+.stat-icon i {
+    font-size: 1em;
 }
 
 .stat-card:nth-child(1) .stat-icon { animation-delay: 0s; }

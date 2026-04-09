@@ -6,7 +6,7 @@
 <div class="event-form-wrapper">
     <div class="form-card">
         <div class="form-header">
-            <div class="header-icon">📅</div>
+            <div class="header-icon"><i class="fa-solid fa-calendar-plus"></i></div>
             <h1>Create New Event</h1>
             <p>Set up a new attendance event for your organization</p>
         </div>
@@ -21,7 +21,7 @@
         <form method="POST" class="event-form" id="createEventForm">
             <div class="form-group">
                 <label for="name">
-                    <span class="label-icon">📝</span>
+                    <span class="label-icon"><i class="fa-solid fa-pen"></i></span>
                     <span class="label-text">Event Name</span>
                     <span class="required">*</span>
                 </label>
@@ -39,7 +39,7 @@
 
             <div class="form-group">
                 <label for="date">
-                    <span class="label-icon">📆</span>
+                    <span class="label-icon"><i class="fa-solid fa-calendar-day"></i></span>
                     <span class="label-text">Event Date</span>
                     <span class="required">*</span>
                 </label>
@@ -56,7 +56,7 @@
 
             <div class="form-group">
                 <label for="description">
-                    <span class="label-icon">📄</span>
+                    <span class="label-icon"><i class="fa-solid fa-file-lines"></i></span>
                     <span class="label-text">Description</span>
                     <span class="optional">(optional)</span>
                 </label>
@@ -76,10 +76,10 @@
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary btn-lg">
-                    <span class="icon">✓</span> Create Event
+                    <span class="icon"><i class="fa-solid fa-circle-check"></i></span> Create Event
                 </button>
                 <a href="{{ url_for('event.list_events') }}" class="btn btn-secondary btn-lg">
-                    <span class="icon">←</span> Cancel
+                    <span class="icon"><i class="fa-solid fa-arrow-left"></i></span> Cancel
                 </a>
             </div>
 
@@ -121,6 +121,10 @@
     margin-bottom: 16px;
     display: block;
     animation: bounce 0.6s ease-out;
+}
+
+.header-icon i {
+    font-size: 1em;
 }
 
 .form-header h1 {

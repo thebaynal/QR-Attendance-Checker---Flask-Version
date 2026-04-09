@@ -20,7 +20,7 @@
 
         {% if error %}
         <div class="alert alert-danger alert-login">
-            <span class="alert-icon">⚠️</span>
+            <span class="alert-icon"><i class="fa-solid fa-circle-exclamation"></i></span>
             <span>{{ error }}</span>
         </div>
         {% endif %}
@@ -28,7 +28,7 @@
         <form method="POST" class="login-form">
             <div class="form-group">
                 <label for="username">
-                    <span class="label-icon">👤</span>
+                    <span class="label-icon"><i class="fa-solid fa-user"></i></span>
                     Username
                 </label>
                 <input type="text" id="username" name="username" placeholder="Enter your username" required autofocus>
@@ -36,7 +36,7 @@
 
             <div class="form-group">
                 <label for="password">
-                    <span class="label-icon">🔐</span>
+                    <span class="label-icon"><i class="fa-solid fa-lock"></i></span>
                     Password
                 </label>
                 <input type="password" id="password" name="password" placeholder="Enter your password" required>

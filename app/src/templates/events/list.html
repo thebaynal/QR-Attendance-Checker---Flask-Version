@@ -23,7 +23,7 @@
         <div class="events-section">
             <div class="section-header today-section">
                 <div class="section-title-wrapper">
-                    <span class="section-badge today-badge">🔴 LIVE</span>
+                    <span class="section-badge today-badge"><i class="fa-solid fa-circle"></i> LIVE</span>
                     <h2 class="section-title">Today's Events</h2>
                 </div>
                 <p class="section-subtitle">{{ today_events|length }} event{{ 's' if today_events|length != 1 else '' }}
@@ -41,14 +41,14 @@
                             <span>⋮</span>
                             <div class="event-menu-dropdown">
                                 <a href="{{ url_for('event.edit_event', event_id=event[0]) }}" class="menu-item">
-                                    ✏️ Edit Event
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit Event
                                 </a>
                                 <a href="#" class="menu-item" onclick="exportEventPDF('{{ event[0] }}'); return false;">
-                                    📥 Export PDF
+                                    <i class="fa-solid fa-file-export"></i> Export PDF
                                 </a>
                                 <a href="#" class="menu-item danger"
                                     onclick="deleteEvent(event, '{{ event[0] }}', '{{ url_for('event.delete_event', event_id=event[0]) }}')">
-                                    🗑️ Delete
+                                    <i class="fa-solid fa-trash"></i> Delete
                                 </a>
                             </div>
                         </div>
@@ -91,7 +91,7 @@
         <div class="events-section">
             <div class="section-header other-section">
                 <div class="section-title-wrapper">
-                    <span class="section-badge other-badge">📅</span>
+                    <span class="section-badge other-badge"><i class="fa-solid fa-calendar-days"></i></span>
                     <h2 class="section-title">Other Events</h2>
                 </div>
                 <p class="section-subtitle">{{ past_events|length + future_events|length }} event{{ 's' if
@@ -109,14 +109,14 @@
                             <span>⋮</span>
                             <div class="event-menu-dropdown">
                                 <a href="{{ url_for('event.edit_event', event_id=event[0]) }}" class="menu-item">
-                                    ✏️ Edit Event
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit Event
                                 </a>
                                 <a href="#" class="menu-item" onclick="exportEventPDF('{{ event[0] }}'); return false;">
-                                    📥 Export PDF
+                                    <i class="fa-solid fa-file-export"></i> Export PDF
                                 </a>
                                 <a href="#" class="menu-item danger"
                                     onclick="deleteEvent(event, '{{ event[0] }}', '{{ url_for('event.delete_event', event_id=event[0]) }}')">
-                                    🗑️ Delete
+                                    <i class="fa-solid fa-trash"></i> Delete
                                 </a>
                             </div>
                         </div>
@@ -156,14 +156,14 @@
                             <span>⋮</span>
                             <div class="event-menu-dropdown">
                                 <a href="{{ url_for('event.edit_event', event_id=event[0]) }}" class="menu-item">
-                                    ✏️ Edit Event
+                                    <i class="fa-solid fa-pen-to-square"></i> Edit Event
                                 </a>
                                 <a href="#" class="menu-item" onclick="exportEventPDF('{{ event[0] }}'); return false;">
-                                    📥 Export PDF
+                                    <i class="fa-solid fa-file-export"></i> Export PDF
                                 </a>
                                 <a href="#" class="menu-item danger"
                                     onclick="deleteEvent(event, '{{ event[0] }}', '{{ url_for('event.delete_event', event_id=event[0]) }}')">
-                                    🗑️ Delete
+                                    <i class="fa-solid fa-trash"></i> Delete
                                 </a>
                             </div>
                         </div>
@@ -198,7 +198,7 @@
     </div>
     {% else %}
     <div class="empty-state">
-        <div class="empty-icon">📅</div>
+        <div class="empty-icon"><i class="fa-solid fa-calendar-plus"></i></div>
         <h2>No Events Yet</h2>
         <p>Start creating events to begin tracking attendance</p>
         {% if user_role == 'admin' %}

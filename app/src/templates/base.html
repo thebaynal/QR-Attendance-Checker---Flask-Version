@@ -5,6 +5,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{% block title %}MaScan - QR Attendance{% endblock %}</title>
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" integrity="sha512-SnH5WK+bZxgPHs44uWix+LLJAJ9/2PkPKZ5QiAj6Ta86w+fsb2TkcmfRyVX3pBnMFcV7oQPJkl9QevSCWr3W6A==" crossorigin="anonymous" referrerpolicy="no-referrer">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.5.2/css/all.min.css">
     {% block extra_css %}{% endblock %}
 </head>
 <body>
@@ -33,7 +35,9 @@
             </div>
             <div class="navbar-right" id="navbarRight">
                 <span class="user-info">{{ session.get('username') }} ({{ user_role }})</span>
-                <button class="theme-toggle" id="themeToggle" title="Toggle dark mode">🌙</button>
+                <button class="theme-toggle" id="themeToggle" title="Switch to dark mode" aria-label="Toggle theme">
+                    <i id="themeToggleIcon" class="fa-solid fa-moon"></i>
+                </button>
                 <form method="post" action="{{ url_for('auth.logout') }}" style="display: inline;">
                     <button type="submit" class="btn btn-logout">Logout</button>
                 </form>
@@ -62,7 +66,7 @@
     <div id="deleteConfirmModal" class="modal-backdrop">
         <div class="modal-content">
             <div class="modal-header">
-                <div class="modal-icon">⚠️</div>
+                <div class="modal-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
                 <h2 class="modal-title">Delete Confirmation</h2>
             </div>
             <div class="modal-body">
@@ -81,7 +85,7 @@
     <div id="alertModal" class="modal-backdrop">
         <div class="modal-content">
             <div class="modal-header">
-                <div id="alertModalIcon" class="modal-icon">⚠️</div>
+                <div id="alertModalIcon" class="modal-icon"><i class="fa-solid fa-circle-exclamation"></i></div>
                 <h2 id="alertModalTitle" class="modal-title">Alert</h2>
             </div>
             <div class="modal-body">

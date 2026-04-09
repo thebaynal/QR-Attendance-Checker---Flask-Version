@@ -13,7 +13,7 @@
     <div class="qr-input-section">
         <!-- Single QR Generation Section -->
         <details class="card qr-single-card">
-            <summary><h2>✨ Generate Single QR Code</h2></summary>
+            <summary><h2><i class="fa-solid fa-wand-magic-sparkles"></i> Generate Single QR Code</h2></summary>
             <p class="info-text">Create a QR code for a single student instantly</p>
         
         <form id="single-qr-form" class="single-qr-form">
@@ -53,7 +53,7 @@
             
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary generate-btn">
-                    <span class="btn-icon">⚡</span>
+                    <span class="btn-icon"><i class="fa-solid fa-bolt"></i></span>
                     Generate QR Code
                 </button>
             </div>
@@ -65,12 +65,12 @@
 
         <!-- CSV Upload Section -->
         <details class="card qr-upload-card">
-            <summary><h2>📤 Import CSV File</h2></summary>
+            <summary><h2><i class="fa-solid fa-file-import"></i> Import CSV File</h2></summary>
             <p class="info-text">Upload a CSV file containing student information to generate QR codes</p>
         
         <div class="csv-template-info">
             <details>
-                <summary>📋 CSV Format Requirements</summary>
+                <summary><i class="fa-solid fa-clipboard-list"></i> CSV Format Requirements</summary>
                 <div class="format-details">
                     <p><strong>Required Columns:</strong></p>
                     <ul>
@@ -98,22 +98,22 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
             <div class="file-input-wrapper">
                 <input type="file" id="csv-file" name="file" accept=".csv" required>
                 <label for="csv-file" class="file-label" id="file-label">
-                    <span class="file-icon">📁</span>
+                    <span class="file-icon"><i class="fa-solid fa-folder-open"></i></span>
                     <span>Click to select CSV file or drag here</span>
                 </label>
                 <div id="file-selected-info" class="file-selected-info" style="display: none;">
                     <div class="selected-file-details">
-                        <span class="file-check-icon">✓</span>
+                        <span class="file-check-icon"><i class="fa-solid fa-circle-check"></i></span>
                         <div class="file-info">
                             <div class="file-name" id="selected-file-name"></div>
                             <div class="file-size" id="selected-file-size"></div>
                         </div>
-                        <button type="button" class="clear-file-btn" id="clear-file-btn" title="Clear selection">✕</button>
+                        <button type="button" class="clear-file-btn" id="clear-file-btn" title="Clear selection"><i class="fa-solid fa-xmark"></i></button>
                     </div>
                 </div>
             </div>
             <button type="submit" class="btn btn-primary upload-btn">
-                <span class="btn-icon">⚡</span>
+                <span class="btn-icon"><i class="fa-solid fa-bolt"></i></span>
                 Generate QR Codes
             </button>
         </form>
@@ -128,7 +128,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
         <div id="upload-result" class="upload-result" style="display: none;">
             <div id="result-message" class="result-message"></div>
             <div id="error-list" class="error-list" style="display: none;">
-                <h3>⚠️ Errors:</h3>
+                <h3><i class="fa-solid fa-triangle-exclamation"></i> Errors:</h3>
                 <ul id="error-items"></ul>
             </div>
         </div>
@@ -138,12 +138,12 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
     <!-- Generated QR Codes Section -->
     <div class="card qr-display-card">
         <div class="qr-card-header">
-            <h2>📱 Generated QR Codes</h2>
+            <h2><i class="fa-solid fa-qrcode"></i> Generated QR Codes</h2>
             <div class="qr-actions">
-                <button id="refresh-btn" class="btn btn-secondary btn-small">🔄 Refresh</button>
-                <button id="download-all-btn" class="btn btn-success btn-small">⬇️ Download All</button>
-                <button id="export-csv-btn" class="btn btn-secondary btn-small">📥 Export CSV</button>
-                <button id="delete-selected-btn" class="btn btn-danger btn-small" style="display: none;">🗑️ Delete Selected</button>
+                <button id="refresh-btn" class="btn btn-secondary btn-small"><i class="fa-solid fa-rotate"></i> Refresh</button>
+                <button id="download-all-btn" class="btn btn-success btn-small"><i class="fa-solid fa-download"></i> Download All</button>
+                <button id="export-csv-btn" class="btn btn-secondary btn-small"><i class="fa-solid fa-file-export"></i> Export CSV</button>
+                <button id="delete-selected-btn" class="btn btn-danger btn-small" style="display: none;"><i class="fa-solid fa-trash"></i> Delete Selected</button>
             </div>
         </div>
 
@@ -151,7 +151,7 @@ STU002,Jane Doe,Jane,Doe,1,B,IT</pre>
         <div class="qr-filter-section">
             <div class="filter-controls">
                 <div class="search-box">
-                    <input type="text" id="search-qr" placeholder="🔍 Search by name or ID..." class="filter-input">
+                    <input type="text" id="search-qr" placeholder="Search by name or ID..." class="filter-input">
                 </div>
                 <div class="course-filter">
                     <label for="course-filter">Filter by Course:</label>
@@ -1326,7 +1326,7 @@ singleQrForm.addEventListener('submit', async (e) => {
         
         if (responseData.success) {
             resultMessage.className = 'result-message success';
-            resultMessage.textContent = `✓ ${responseData.message}`;
+            resultMessage.textContent = `Success: ${responseData.message}`;
             
             // clear form
             singleQrForm.reset();
@@ -1335,12 +1335,12 @@ singleQrForm.addEventListener('submit', async (e) => {
             setTimeout(() => loadQRCodes(), 1000);
         } else {
             resultMessage.className = 'result-message error';
-            resultMessage.textContent = `✗ ${responseData.message}`;
+            resultMessage.textContent = `Error: ${responseData.message}`;
         }
     } catch (error) {
         resultDiv.style.display = 'block';
         resultMessage.className = 'result-message error';
-        resultMessage.textContent = `✗ Error: ${error.message}`;
+        resultMessage.textContent = `Error: ${error.message}`;
     } finally {
         generateBtn.innerHTML = originalBtnContent;
         generateBtn.disabled = false;
@@ -1454,7 +1454,7 @@ csvForm.addEventListener('submit', async (e) => {
 
         if (data.success) {
             resultMessage.className = 'result-message success';
-            resultMessage.textContent = `✓ ${data.message}`;
+            resultMessage.textContent = `Success: ${data.message}`;
             
             if (data.errors && data.errors.length > 0) {
                 errorList.style.display = 'block';
@@ -1474,14 +1474,14 @@ csvForm.addEventListener('submit', async (e) => {
             setTimeout(() => loadQRCodes(), 1000);
         } else {
             resultMessage.className = 'result-message error';
-            resultMessage.textContent = `✗ ${data.error || data.message}`;
+            resultMessage.textContent = `Error: ${data.error || data.message}`;
             errorList.style.display = 'none';
         }
     } catch (error) {
         progressContainer.style.display = 'none';
         resultDiv.style.display = 'block';
         resultMessage.className = 'result-message error';
-        resultMessage.textContent = `✗ Error: ${error.message}`;
+        resultMessage.textContent = `Error: ${error.message}`;
         errorList.style.display = 'none';
     }
 });
@@ -1625,10 +1625,10 @@ function displayQRCodes(qrCodes) {
             </div>
             <div class="qr-code-actions">
                 <button class="btn btn-small btn-secondary" onclick="downloadSingleQR('${qr.school_id}')">
-                    ⬇️ Download
+                    <i class="fa-solid fa-download"></i> Download
                 </button>
                 <button class="btn btn-small btn-danger" onclick="deleteQRCode('${qr.school_id}')">
-                    🗑️ Delete
+                    <i class="fa-solid fa-trash"></i> Delete
                 </button>
             </div>
         `;
