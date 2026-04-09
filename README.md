@@ -108,16 +108,27 @@ STU102,Bianca Reyes,Bianca,Reyes,L,1,B,BS Information Technology
 ## Screenshots
 
 ### App Preview
-![MaScan Preview](app/src/assets/splash_android.png)
 
-### Add Your Own App Screenshots
-Add your screenshots to docs/screenshots and reference them like this:
+#### Dashboard
 
-```md
-![Dashboard](docs/screenshots/dashboard.png)
-![QR Management](docs/screenshots/qr-management.png)
-![Scanner](docs/screenshots/scanner.png)
-```
+![Dashboard](https://raw.githubusercontent.com/thebaynal/QR-Attendance-Checker---Flask-Version/main/docs/screenshots/dashboard.png)
+
+#### Events Management
+
+![Events](https://raw.githubusercontent.com/thebaynal/QR-Attendance-Checker---Flask-Version/main/docs/screenshots/events.png)
+
+#### Login
+
+![Login](https://raw.githubusercontent.com/thebaynal/QR-Attendance-Checker---Flask-Version/main/docs/screenshots/login.png)
+
+#### QR Scanner
+
+![QR Scanner](https://raw.githubusercontent.com/thebaynal/QR-Attendance-Checker---Flask-Version/main/docs/screenshots/qr_scan.png)
+
+#### QR Management
+
+![QR Management](https://raw.githubusercontent.com/thebaynal/QR-Attendance-Checker---Flask-Version/main/docs/screenshots/qr-management.png)
+
 
 ## Troubleshooting
 
