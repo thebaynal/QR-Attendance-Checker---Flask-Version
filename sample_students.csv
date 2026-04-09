@@ -1,11 +1,16 @@
 School ID,Name,First Name,Last Name,Middle Initial,Year,Section,Course
-STU001,John Smith,John,Smith,M,1,A,Computer Science
-STU002,Jane Doe,Jane,Doe,A,1,B,Information Technology
-STU003,Robert Johnson,Robert,Johnson,K,2,A,Computer Science
-STU004,Emily Davis,Emily,Davis,L,2,C,Business Administration
-STU005,Michael Wilson,Michael,Wilson,R,1,A,Computer Science
-STU006,Sarah Anderson,Sarah,Anderson,G,1,B,Information Technology
-STU007,David Martinez,David,Martinez,J,2,B,Computer Science
-STU008,Lisa Brown,Lisa,Brown,M,2,A,Information Technology
-STU009,James Garcia,James,Garcia,P,1,C,Business Administration
-STU010,Mary Rodriguez,Mary,Rodriguez,S,1,A,Computer Science
+STU101,Alex Cruz,Alex,Cruz,M,1,A,BS Computer Science
+STU102,Bianca Reyes,Bianca,Reyes,L,1,B,BS Information Technology
+STU103,Carlos Mendoza,Carlos,Mendoza,P,2,A,BS Computer Science
+STU104,Diana Santos,Diana,Santos,R,2,C,BS Business Administration
+STU105,Ethan Flores,Ethan,Flores,J,3,A,BS Information Technology
+STU106,Faith Navarro,Faith,Navarro,G,3,B,BS Computer Science
+STU107,Gabriel Torres,Gabriel,Torres,D,4,A,BS Information Technology
+STU108,Hannah Lopez,Hannah,Lopez,S,4,B,BS Computer Science
+STU109,Ian Ramos,Ian,Ramos,K,1,C,BS Business Administration
+STU110,Jasmine Aquino,Jasmine,Aquino,T,2,B,BS Information Technology
+STU111,Kevin Castillo,Kevin,Castillo,A,3,C,BS Computer Science
+STU112,Lara Bautista,Lara,Bautista,N,4,C,BS Business Administration
+STU113,Marco Villanueva,Marco,Villanueva,E,1,A,BS Information Technology
+STU114,Nina Herrera,Nina,Herrera,B,2,A,BS Computer Science
+STU115,Owen Delgado,Owen,Delgado,F,3,B,BS Business Administration
