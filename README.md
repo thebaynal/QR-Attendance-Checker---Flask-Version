@@ -43,7 +43,8 @@ QR-Attendance-Checker---Flask-Version/
 
 ### 1. Open project root
 ```powershell
-cd "C:\Users\thebaynal\Documents\Code\Self-Projects\QR-Attendance-Checker---Flask-Version"
+git clone https://github.com/thebaynal/QR-Attendance-Checker---Flask-Version.git
+cd QR-Attendance-Checker---Flask-Version
 ```
 
 ### 2. Create virtual environment

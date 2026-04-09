@@ -1,27 +1,26 @@
-# Virtual Environment
+# Python virtual environments
 .venv/
 venv/
 ENV/
 env/
 
-#folders
+# Runtime/session artifacts
 flask_session/
+app/flask_session/
 
-
-# Database files
+# Local database artifacts
 *.db
 *.sqlite
 *.sqlite3
 data/
 
-# Python
+# Python cache/build artifacts
 __pycache__/
 *.py[cod]
 *$py.class
 *.so
 .Python
 build/
-develop-eggs/
 dist/
 downloads/
 eggs/
@@ -36,23 +35,19 @@ wheels/
 .installed.cfg
 *.egg
 
-# IDE
+# IDE/editor
 .vscode/
 .idea/
 *.swp
 *.swo
 *~
 
-# OS
-.DS_Store
-Thumbs.db
-
-# Environment Variables
+# Environment variables
 .env
 .env.local
 .env.*.local
 
-# Testing
+# Testing/coverage
 .pytest_cache/
 .coverage
 htmlcov/
@@ -61,18 +56,10 @@ htmlcov/
 *.log
 logs/
 
-# Local configuration
+# Local framework/app cache
 instance/
 .webassets-cache
 
-# Logs
-*.log
-
-# OS
+# OS files
 .DS_Store
 Thumbs.db
-
-__pycache__/
-*.pyc
-*.pyo
-*.pyd
